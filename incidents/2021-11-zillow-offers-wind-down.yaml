@@ -1,0 +1,60 @@
+# Schema: schema/incident.schema.json. Summaries are in our own words; see sources for original reporting.
+id: 2021-11-zillow-offers-wind-down
+title: Zillow Offers writes down USD 304m and winds down iBuying after price-forecasting misses
+date: '2021-11-02'
+date_precision: day
+category: precedent_ml
+model_or_agent: Home-price forecasting used to price Zillow Offers purchases (company statements refer
+  to forecasting future home prices; the Zestimate's exact role in offer pricing is not detailed in the
+  cited sources)
+vendor_or_deployer: Zillow Group
+sector: real_estate
+summary: Zillow's home-flipping business bought homes at prices above its estimates of their future selling
+  prices, took a USD 304m inventory write-down in Q3 2021, and announced it would wind down the business
+  and cut about 25% of staff.
+what_happened: On 2 November 2021 Zillow reported Q3 results including a write-down of about USD 304m
+  on homes bought at higher prices than its current estimates of future selling prices, and guided to
+  a further USD 240-265m of Q4 losses mainly on homes it had committed to buy. It announced the wind-down
+  of Zillow Offers over several quarters. Management said it had been unable to forecast home prices accurately
+  by more than it had modelled, and that scaling the business would add too much earnings volatility.
+failure_modes:
+- bad-financial-actions
+severity: 5
+harm_types:
+- financial_loss
+- operational_disruption
+loss_estimate:
+  amount: 304000000
+  currency: USD
+  basis: Q3 2021 inventory write-down per Zillow's results. Zillow also guided to USD 240-265m of further
+    Q4 losses on committed purchases and USD 175-230m of impairment and restructuring costs; these are
+    not included in the amount.
+  confidence: high
+outcome:
+  types:
+  - company_wind_down
+  description: Zillow Offers was wound down over several quarters with a workforce reduction of about
+    25%.
+root_cause:
+  attribution: vendor_stated
+  description: Zillow said price-forecasting volatility far exceeded what it had modelled, that it unintentionally
+    purchased homes above its estimates of future selling prices, and that renovation and resale capacity
+    constraints compounded the problem.
+source_urls:
+- url: https://investors.zillowgroup.com/news-and-events/news/news-details/2021/Zillow-Group-Reports-Third-Quarter-2021-Financial-Results--Shares-Plan-to-Wind-Down-Zillow-Offers-Operations/default.aspx
+  title: Zillow Group Reports Third-Quarter 2021 Financial Results & Shares Plan to Wind Down Zillow Offers
+    Operations
+  publisher: Zillow Group (investor relations)
+  source_type: company
+  accessed: '2026-10-16'
+- url: https://www.sec.gov/Archives/edgar/data/1617640/000161764021000085/exhibit993.htm
+  title: Zillow Group Q3 2021 shareholder letter (8-K Exhibit 99.3)
+  publisher: U.S. SEC EDGAR
+  source_type: court_or_regulator
+  accessed: '2026-10-16'
+verification_status: verified_primary
+notes: 'Flagged precedent_ml: a forecasting-model failure inside an automated-ish decision pipeline rather
+  than an agentic LLM incident. Public commentary often frames it as an algorithm failure; Zillow''s own
+  stated causes are forecast error, pandemic-era market swings and operational capacity, so the relative
+  contribution of the model is not isolated here.'
+contributor: Jamie Magill (seed corpus)

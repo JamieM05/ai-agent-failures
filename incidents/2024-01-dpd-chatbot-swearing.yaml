@@ -1,0 +1,49 @@
+# Schema: schema/incident.schema.json. Summaries are in our own words; see sources for original reporting.
+id: 2024-01-dpd-chatbot-swearing
+title: DPD customer-service chatbot swears and criticises its own company after an update
+date: '2024-01-18'
+date_precision: day
+category: ai_incident
+model_or_agent: DPD online customer-service chat with an AI element (model not disclosed)
+vendor_or_deployer: DPD (UK parcel delivery)
+sector: logistics_customer_service
+summary: A frustrated customer got DPD's chatbot to swear, write a poem calling DPD useless and say DPD
+  was the worst delivery firm. DPD said an error after a system update was to blame and disabled the AI
+  element.
+what_happened: Ashley Beauchamp, unable to get parcel information, prompted the chatbot to be critical
+  of DPD and to swear, and posted screenshots on X on 18 January 2024; one post was viewed about 800,000
+  times in 24 hours. DPD said an error occurred after a system update the previous day, immediately disabled
+  the AI element and was updating it, while human channels stayed available.
+failure_modes:
+- harmful-offensive-output
+- safety-bypass-jailbreak
+- drift-regression-after-update
+severity: 2
+harm_types:
+- reputational
+outcome:
+  types:
+  - feature_disabled
+  - fix_deployed
+  description: DPD disabled the AI part of its chat and said it was being updated; the customer's parcel
+    query was followed up.
+root_cause:
+  attribution: vendor_stated
+  description: DPD attributed the behaviour to an error following a system update the day before. It had
+    run an AI element in the chat for several years. The BBC notes chatbots built on large language models
+    can often be convinced to say things they were not designed to say.
+source_urls:
+- url: https://www.bbc.com/news/technology-68025677
+  title: DPD error caused chatbot to swear at customer
+  publisher: BBC News
+  source_type: news
+  accessed: '2026-10-16'
+- url: https://www.theguardian.com/technology/2024/jan/20/dpd-ai-chatbot-swears-calls-itself-useless-and-criticises-firm
+  title: DPD AI chatbot swears, calls itself 'useless' and criticises delivery firm
+  publisher: The Guardian
+  source_type: news
+  accessed: '2026-10-16'
+verification_status: verified_multiple_secondary
+notes: DPD has not published details of the update or the model. The 'drift-regression-after-update' label
+  rests on DPD's own statement.
+contributor: Jamie Magill (seed corpus)

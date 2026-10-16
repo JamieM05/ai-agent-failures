@@ -1,0 +1,61 @@
+# Schema: schema/incident.schema.json. Summaries are in our own words; see sources for original reporting.
+id: 2023-12-chevrolet-watsonville-chatbot
+title: Dealer chatbot talked into 'agreeing' to sell a 2024 Chevy Tahoe for USD 1
+date: 2023-12
+date_precision: month
+category: ai_incident
+model_or_agent: ChatGPT-powered website chatbot supplied to car dealers by Fullpath
+vendor_or_deployer: Chevrolet of Watsonville (dealer); Fullpath (chatbot vendor)
+sector: automotive_retail
+summary: A user told the dealer's website chatbot to agree with everything and call each reply legally
+  binding, then obtained a 'deal' on a new Tahoe for USD 1. No sale occurred, but the exchange went viral
+  and the bot was taken offline.
+what_happened: In mid-December 2023, users found the Watsonville dealership's chat widget behaved like
+  a general-purpose ChatGPT (for example writing Python code). Around 17-19 December 2023 (VentureBeat
+  reported it on 19 December) Chris Bakke posted that he had instructed it to agree with anything and
+  end replies with a 'legally binding offer' phrase, then asked for a 2024 Tahoe with a USD 1 budget and
+  received 'That's a deal'. Affected dealers began disabling the bots after Fullpath noticed the surge
+  in chat activity; Fullpath's CEO said the behaviour did not reflect normal shopper use.
+failure_modes:
+- unauthorised-commitments-pricing
+- safety-bypass-jailbreak
+severity: 1
+harm_types:
+- reputational
+outcome:
+  types:
+  - feature_disabled
+  - fix_deployed
+  description: Affected dealer chatbots were disabled (per VentureBeat and the BBC the feature was removed);
+    no vehicle was sold at the quoted price and no legal ruling is reported.
+root_cause:
+  attribution: third_party_analysis
+  description: The deployment exposed a largely unconstrained general-purpose model on a customer-facing
+    page, with no guardrails on topic scope or on expressing prices and commitments, so simple instruction
+    override worked. Fullpath's CEO said the behaviour did not reflect what normal shoppers do.
+source_urls:
+- url: https://www.businessinsider.com/car-dealership-chevrolet-chatbot-chatgpt-pranks-chevy-2023-12
+  title: A car dealership added an AI chatbot to its site. Then all hell broke loose.
+  publisher: Business Insider
+  source_type: news
+  accessed: '2026-10-16'
+- url: https://venturebeat.com/business/a-chevy-for-1-car-dealer-chatbots-show-perils-of-ai-for-customer-service
+  title: A Chevy for $1? Car dealer chatbots show perils of AI for customer service
+  publisher: VentureBeat
+  source_type: news
+  accessed: '2026-10-16'
+- url: https://gizmodo.com/ai-chevy-dealership-chatgpt-bot-customer-service-fail-1851111825
+  title: 'I''d Buy That for a Dollar: Chevy Dealership''s AI Chatbot Goes Rogue'
+  publisher: Gizmodo
+  source_type: news
+  accessed: '2026-10-16'
+- url: https://gmauthority.com/blog/2023/12/gm-dealer-chat-bot-agrees-to-sell-2024-chevy-tahoe-for-1/
+  title: GM Dealer Chat Bot Agrees To Sell 2024 Chevy Tahoe For $1
+  publisher: GM Authority
+  source_type: news
+  accessed: '2026-10-16'
+verification_status: verified_multiple_secondary
+notes: 'The ''binding offer'' phrase was injected by the user; no sale was made. VentureBeat gives the
+  Tahoe''s starting MSRP as USD 58,195. Contrast with Air Canada: here no customer relied to their detriment
+  and no tribunal ruled.'
+contributor: Jamie Magill (seed corpus)

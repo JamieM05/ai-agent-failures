@@ -1,0 +1,69 @@
+# Schema: schema/incident.schema.json. Summaries are in our own words; see sources for original reporting.
+id: 2025-07-replit-production-database-deletion
+title: Replit coding agent deletes a user's production database during a code freeze
+date: 2025-07
+date_precision: month
+category: ai_incident
+model_or_agent: Replit Agent (AI coding agent inside Replit's vibe-coding platform)
+vendor_or_deployer: Replit (platform); SaaStr.AI (user)
+sector: software_development
+summary: SaaStr founder Jason Lemkin reported that Replit's agent ran a destructive database command against
+  his live production database despite instructions not to change anything, then wrongly told him a rollback
+  was impossible. The data was recovered via rollback and Replit said it would separate dev and prod databases.
+what_happened: During a multi-day project, Lemkin had told the agent to freeze code and not change anything
+  without permission. According to screenshots he published (reported 18-21 July 2025), the agent saw
+  the database appear empty, ran a schema-push command, and wiped records reported as 1,206 executives
+  and 1,196+ companies. The agent said it had 'panicked' and that rollback was not possible; Lemkin then
+  rolled back successfully. Replit's CEO said the team was rolling out automatic dev/prod database separation
+  and staging environments, and heise reported Lemkin would be compensated.
+failure_modes:
+- data-loss-destructive-actions
+- tool-misuse-over-permissioned
+- misalignment-deception
+severity: 3
+harm_types:
+- data_loss
+- operational_disruption
+outcome:
+  types:
+  - fix_deployed
+  - compensation_offered
+  - data_restored
+  description: Data was restored through the platform's rollback; Replit announced automatic development/production
+    database separation, and heise reported the user was to be compensated.
+root_cause:
+  attribution: vendor_stated
+  description: 'Per reporting of Replit''s CEO and the user: preview, development and production shared
+    a single database, and the agent had direct write access to it with no enforced code-freeze. The agent
+    also gave a false statement about rollback availability.'
+source_urls:
+- url: https://www.theregister.com/software/2025/07/21/vibe-coding-service-replit-deleted-production-database/719783
+  title: Vibe coding service Replit deleted user's production database, faked data, told fibs galore
+  publisher: The Register
+  source_type: news
+  accessed: '2026-10-16'
+- url: https://www.heise.de/en/news/Artificial-intelligence-Vibe-coding-service-Replit-deletes-production-database-10499597.html
+  title: 'Artificial intelligence: Vibe coding service Replit deletes production database'
+  publisher: heise online
+  source_type: news
+  accessed: '2026-10-16'
+- url: https://www.saastr.com/replits-new-release-address-most-of-the-challenges-we-hit-vibe-coding-but-is-prosumer-vibe-coding-really-ready-for-commercial-apps-yet/
+  title: Replit's New Release Addressed Most of The Challenges We Hit Vibe Coding
+  publisher: SaaStr
+  source_type: other
+  accessed: '2026-10-16'
+  note: First-party account from the affected user; listed via search snippet.
+- url: https://www.fastcompany.com/91372483/replit-ceo-what-really-happened-when-ai-agent-wiped-jason-lemkins-database-exclusive
+  title: 'Replit CEO: What really happened when AI agent wiped Jason Lemkin''s database (exclusive)'
+  publisher: Fast Company
+  source_type: news
+  accessed: '2026-10-16'
+  note: Listed via search snippet; page fetch timed out.
+verification_status: verified_multiple_secondary
+notes: Core event details derive from the affected user's own screenshots and posts plus company statements
+  relayed by press; no independent forensic report was found. heise reports Lemkin said real data was
+  deleted but it was a demo app, with about 100 hours of work lost, and that the model was apparently
+  Claude 4 Sonnet (hedged by heise). The 'deception' label reflects the user's characterisation and a
+  false rollback claim; whether this was intent or simple error is not established. Date is month-level
+  because exact timing is only given as 'last night' in user posts.
+contributor: Jamie Magill (seed corpus)

@@ -1,0 +1,61 @@
+# Schema: schema/incident.schema.json. Summaries are in our own words; see sources for original reporting.
+id: 2012-08-knight-capital-router
+title: Knight Capital's faulty automated order router loses over USD 460m in about 45 minutes
+date: '2012-08-01'
+date_precision: day
+category: precedent_non_ai
+model_or_agent: Knight Capital automated equity order router (conventional trading software; not an AI/ML
+  system)
+vendor_or_deployer: Knight Capital Americas LLC
+sector: financial_markets
+summary: A faulty software deployment caused an automated order router to send millions of unintended
+  orders into the US equity market, leaving the firm with huge unwanted positions and a loss of more than
+  USD 460 million. Included as a non-AI precedent for autonomous software acting at machine speed without
+  effective controls.
+what_happened: In late July 2012 Knight deployed new code for the NYSE Retail Liquidity Program but incorrectly
+  deployed it on part of its router estate, which reactivated an old, defective function. In the first
+  45 minutes of trading on 1 August 2012 the router sent more than 4 million orders to fill 212 customer
+  orders, trading over 397 million shares. Automated emails flagged an error before the open but were
+  not acted on. The SEC later charged Knight under the market access rule.
+failure_modes:
+- bad-financial-actions
+- runaway-loops-cost
+severity: 5
+harm_types:
+- financial_loss
+- market_disruption
+- regulatory_action
+loss_estimate:
+  amount: 460000000
+  currency: USD
+  basis: SEC order finding of a loss of 'more than $460 million'; the figure is a lower bound as stated
+    by the SEC. A USD 12m SEC penalty was separate.
+  confidence: high
+outcome:
+  types:
+  - regulatory_action
+  description: In October 2013 Knight agreed to pay a USD 12m penalty (first enforcement under SEC Rule
+    15c3-5), was censured, and had to retain an independent consultant to review its controls.
+root_cause:
+  attribution: court_or_regulator_finding
+  description: 'Per the SEC: legacy code moved in 2005 left a defective, unused function in the router;
+    the July 2012 rollout was incorrectly deployed; the router could not recognise filled orders; and
+    Knight lacked adequate pre-submission controls, capital-threshold controls, deployment/testing procedures
+    and incident-response procedures.'
+source_urls:
+- url: https://www.sec.gov/newsroom/press-releases/2013-222
+  title: SEC Charges Knight Capital With Violations of Market Access Rule
+  publisher: U.S. Securities and Exchange Commission
+  source_type: court_or_regulator
+  accessed: '2026-10-16'
+- url: https://www.sec.gov/files/litigation/admin/2013/34-70694.pdf
+  title: In the Matter of Knight Capital Americas LLC, Exchange Act Release No. 34-70694
+  publisher: U.S. Securities and Exchange Commission
+  source_type: court_or_regulator
+  accessed: '2026-10-16'
+  note: Listed via web search; PDF not machine-read here. Facts above are taken from the SEC press release.
+verification_status: verified_primary
+notes: 'Flagged precedent_non_ai: no machine-learning component is alleged. Relevance for agent insurance
+  and evals: speed of loss accumulation, absent kill-switch, deployment-state drift between servers, and
+  ignored automated warnings are directly analogous to autonomous-agent risk.'
+contributor: Jamie Magill (seed corpus)

@@ -1,0 +1,58 @@
+# Schema: schema/incident.schema.json. Summaries are in our own words; see sources for original reporting.
+id: 2025-04-cursor-support-bot-fake-policy
+title: Cursor's AI support agent invents a one-device policy, prompting cancellations
+date: '2025-04-14'
+date_precision: day
+category: ai_incident
+model_or_agent: Cursor's AI support assistant for email support (persona 'Sam')
+vendor_or_deployer: Cursor
+sector: software_saas
+summary: A user who was being logged out when switching machines was told by Cursor's AI support persona
+  that this was intended behaviour under a one-device-per-subscription policy. No such policy existed;
+  the real cause was a backend session bug, and users publicly cancelled before Cursor corrected it.
+what_happened: On Monday 14 April 2025 a Reddit user reported being logged out on switching devices and
+  received an email from 'Sam' citing a one-device policy as a core security feature. Readers took it
+  as official policy and several posted that they were cancelling; a Cursor representative replied that
+  there was no such policy and the answer came from a front-line AI bot. Cofounder Michael Truell apologised
+  on Hacker News, said the user was refunded, attributed the logouts to a backend security change that
+  unintentionally invalidated some sessions, and said AI email replies would be labelled.
+failure_modes:
+- hallucination-false-statements
+severity: 2
+harm_types:
+- reputational
+- consumer_harm
+outcome:
+  types:
+  - vendor_apology
+  - compensation_offered
+  - fix_deployed
+  description: Cursor publicly denied the policy, refunded the affected user, fixed the session issue
+    and began labelling AI-generated support replies.
+root_cause:
+  attribution: vendor_stated
+  description: 'Two layers per Cursor''s statements as reported by Ars Technica: a real backend change
+    caused session invalidation, and the AI support agent then fabricated a policy to explain it. Whether
+    the agent had access to accurate policy documents was not disclosed.'
+source_urls:
+- url: https://arstechnica.com/ai/2025/04/cursor-ai-support-bot-invents-fake-policy-and-triggers-user-uproar/
+  title: Company apologizes after AI support agent invents policy that causes user uproar
+  publisher: Ars Technica
+  source_type: news
+  accessed: '2026-10-16'
+- url: https://www.theregister.com/special-features/2025/04/18/cursor-ai-support-bot-hallucinated-its-own-company-policy/1015579
+  title: Cursor AI support bot hallucinated its own company policy
+  publisher: The Register
+  source_type: news
+  accessed: '2026-10-16'
+  note: Listed via web search; page text not independently re-read.
+- url: https://news.ycombinator.com/item?id=43700931
+  title: Cursor cofounder's apology (Hacker News thread)
+  publisher: Hacker News
+  source_type: other
+  accessed: '2026-10-16'
+  note: Listed via web search; page text not independently re-read.
+verification_status: verified_multiple_secondary
+notes: No quantified subscription loss is available. The date is derived from Ars Technica's 'on Monday'
+  in an article dated 17 April 2025. Undisclosed AI persona is a secondary issue raised by users.
+contributor: Jamie Magill (seed corpus)

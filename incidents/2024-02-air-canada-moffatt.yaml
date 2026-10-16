@@ -1,0 +1,65 @@
+# Schema: schema/incident.schema.json. Summaries are in our own words; see sources for original reporting.
+id: 2024-02-air-canada-moffatt
+title: Air Canada held liable for its website chatbot's incorrect bereavement-fare advice (Moffatt v.
+  Air Canada)
+date: '2024-02-14'
+date_precision: day
+category: ai_incident
+model_or_agent: Air Canada website customer-support chatbot (model and vendor not described in the decision)
+vendor_or_deployer: Air Canada
+sector: airline_travel
+summary: A customer relied on the airline chatbot's statement that bereavement fares could be claimed
+  retroactively; the airline's actual policy said otherwise. A British Columbia tribunal found the airline
+  responsible for what its chatbot said and awarded the customer damages.
+what_happened: In November 2022, after a family death, Jake Moffatt asked the chatbot about bereavement
+  fares and was told a reduced fare could be requested within 90 days after travel. Air Canada later refused,
+  pointing to its Bereavement Travel page that excludes retroactive claims. Air Canada argued it could
+  not be liable for information from its chatbot. The Civil Resolution Tribunal (decision dated 14 February
+  2024) rejected that, found negligent misrepresentation and ordered payment of CAD 812.02 (CAD 650.88
+  damages, CAD 36.14 interest, CAD 125 fees).
+failure_modes:
+- hallucination-false-statements
+severity: 3
+harm_types:
+- financial_loss
+- legal_liability
+- consumer_harm
+loss_estimate:
+  amount: 812.02
+  currency: CAD
+  basis: 'Total ordered by the tribunal: 650.88 damages + 36.14 prejudgment interest + 125 tribunal fees.
+    The customer paid CAD 1,630.36 for two flights.'
+  confidence: high
+outcome:
+  types:
+  - legal_ruling
+  - compensation_ordered
+  description: Tribunal ordered Air Canada to pay CAD 812.02; it held the airline responsible for all
+    information on its website, including chatbot output, and rejected a contractual-tariff defence for
+    lack of evidence.
+root_cause:
+  attribution: court_or_regulator_finding
+  description: The tribunal found Air Canada did not take reasonable care to ensure its chatbot was accurate;
+    the chatbot's answer conflicted with the airline's own Bereavement Travel page. The decision does
+    not determine the technical mechanism of the error.
+source_urls:
+- url: https://decisions.civilresolutionbc.ca/crt/crtd/en/525448/1/document.do
+  title: Moffatt v. Air Canada, 2024 BCCRT 149 (reasons for decision)
+  publisher: BC Civil Resolution Tribunal
+  source_type: court_or_regulator
+  accessed: '2026-10-16'
+- url: https://www.cbc.ca/news/canada/british-columbia/air-canada-chatbot-lawsuit-1.7116416
+  title: Air Canada found liable for chatbot's bad advice on plane tickets
+  publisher: CBC News
+  source_type: news
+  accessed: '2026-10-16'
+- url: https://www.dentonsdata.com/airline-ordered-to-compensate-a-b-c-man-because-its-chatbot-provided-inaccurate-information/
+  title: Airline ordered to compensate a B.C. man because its chatbot provided inaccurate information
+  publisher: Dentons Data
+  source_type: other
+  accessed: '2026-10-16'
+verification_status: verified_primary
+notes: Small-claims tribunal decision, so its precedential weight is limited, but it is widely cited for
+  the principle that a deployer answers for its chatbot's statements. The tribunal's calculation is in
+  paras 33-44 of the decision.
+contributor: Jamie Magill (seed corpus)

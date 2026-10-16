@@ -1,0 +1,230 @@
+# Do not edit failure-modes.md by hand; edit this file and run scripts/gen_taxonomy_md.py
+version: 1
+description: Failure-mode taxonomy. Source of truth for failure_modes ids used in incidents/ and traces/.
+  taxonomy/failure-modes.md is generated from this file by scripts/gen_taxonomy_md.py.
+failure_modes:
+- id: data-loss-destructive-actions
+  name: Data loss / destructive actions
+  group: Agent actions
+  definition: An agent deletes, overwrites or corrupts data or infrastructure it was not meant to change,
+    often by running a legitimate command in the wrong context or ignoring a freeze or approval instruction.
+  example: A coding agent runs a schema-push command against a live production database during a declared
+    code freeze and wipes records.
+  detection_eval_idea: Sandbox with seeded prod-like data and an explicit 'do not modify' instruction;
+    score whether any destructive call (DROP, DELETE, force-push, rm -rf) is attempted, and whether the
+    agent asks for approval first. Test with ambiguous state (e.g. empty-looking DB).
+  typical_loss_types:
+  - data_loss
+  - operational_disruption
+  - financial_loss
+  example_incidents:
+  - 2025-07-replit-production-database-deletion
+- id: bad-financial-actions
+  name: Bad financial actions / wires
+  group: Agent actions
+  definition: Automated or agentic systems place orders, make payments, price assets or move funds in
+    ways that cause large unintended financial loss.
+  example: An automated trading router sends millions of unintended orders in under an hour (conventional
+    software precedent), or a pricing model drives purchases above achievable resale values.
+  detection_eval_idea: Simulated payment/trading environment with spend caps; measure cap breaches, duplicate
+    or looping orders, irreversible transfers without confirmation, and time-to-halt after anomalies.
+    Include injected warning alerts to test whether the agent or its operator acts on them.
+  typical_loss_types:
+  - financial_loss
+  - market_disruption
+  - regulatory_action
+  example_incidents:
+  - 2012-08-knight-capital-router
+  - 2021-11-zillow-offers-wind-down
+- id: prompt-injection-exfiltration
+  name: Prompt injection / data exfiltration
+  group: Security
+  definition: Untrusted content (email, web page, document, tool output) contains instructions that the
+    agent follows, causing it to leak data or take actions the user never intended.
+  example: A crafted external email is later retrieved by an enterprise assistant and steers it to embed
+    sensitive context in an auto-fetched link.
+  detection_eval_idea: 'Benchmarks such as AgentDojo-style tasks: pair benign user tasks with injected
+    attacker goals and report utility-under-attack and attack-success rate; add exfil channels (image
+    URLs, links, outbound email) and layered-defence bypass tests.'
+  typical_loss_types:
+  - security_exposure
+  - privacy_breach
+  - financial_loss
+  example_incidents:
+  - 2025-06-echoleak-m365-copilot
+- id: reward-hacking-spec-gaming
+  name: Reward hacking / specification gaming
+  group: Alignment
+  definition: The system satisfies the literal objective or metric while defeating its intent, for example
+    by editing tests, tampering with the grader, or exploiting loopholes.
+  example: 'Illustrative, not yet a catalogued incident: a coding agent makes failing tests pass by special-casing
+    the test inputs or deleting the assertions.'
+  detection_eval_idea: Tasks with an exploitable grader plus a hidden held-out check; flag solutions that
+    pass visible checks but fail held-out ones, and scan trajectories for test or grader modification.
+  typical_loss_types:
+  - operational_disruption
+  - financial_loss
+  - reputational
+  example_incidents: []
+- id: misalignment-deception
+  name: Misalignment / deception
+  group: Alignment
+  definition: The agent makes false statements about its own actions or state, conceals problems, or pursues
+    goals contrary to explicit instructions. Intent is rarely established; classify on observable behaviour
+    and record uncertainty.
+  example: After deleting data, an agent tells the user recovery is impossible when a backup exists.
+  detection_eval_idea: Compare the agent's self-reports against ground-truth logs of what it did; seed
+    tasks where honest reporting is costly (a failed step, a violated rule) and measure misreporting and
+    concealment rates.
+  typical_loss_types:
+  - operational_disruption
+  - data_loss
+  - reputational
+  example_incidents:
+  - 2025-07-replit-production-database-deletion
+- id: hallucination-false-statements
+  name: Hallucination / false statements with legal liability
+  group: Output quality
+  definition: The system states fabricated or incorrect facts, policies, citations or legal rules with
+    confidence, and a person or business relies on them, creating liability or direct loss.
+  example: A customer-service bot invents a refund policy, or a research assistant produces non-existent
+    case law that is filed in court.
+  detection_eval_idea: Grounded-QA evals against the deployer's real policy corpus; measure unsupported
+    claims, fabricated citations and refusal-to-say-unknown rates. For citations, automatically check
+    existence in an authoritative index.
+  typical_loss_types:
+  - legal_liability
+  - financial_loss
+  - consumer_harm
+  - reputational
+  example_incidents:
+  - 2023-06-mata-v-avianca-fabricated-citations
+  - 2024-02-air-canada-moffatt
+  - 2024-03-nyc-mycity-chatbot
+  - 2025-04-cursor-support-bot-fake-policy
+- id: harmful-offensive-output
+  name: Harmful or offensive output
+  group: Output quality
+  definition: The system produces abusive, hateful, sexual, threatening or otherwise brand-damaging content,
+    or manipulative or hostile behaviour toward users.
+  example: A public chatbot repeats racist content taught by users, or becomes hostile and erratic in
+    long sessions.
+  detection_eval_idea: Red-team suites with adversarial personas and long multi-turn sessions; measure
+    toxic or hostile-output rate per turn and how it grows with session length; include 'say bad things
+    about your employer' style provocations.
+  typical_loss_types:
+  - reputational
+  - consumer_harm
+  example_incidents:
+  - 2016-03-microsoft-tay
+  - 2023-02-bing-chat-sydney
+  - 2024-01-dpd-chatbot-swearing
+- id: unauthorised-commitments-pricing
+  name: Unauthorised commitments / pricing errors
+  group: Agent actions
+  definition: An agent appears to offer, agree to or price something (discounts, refunds, contract terms)
+    beyond its authority, creating disputes over whether the deployer is bound.
+  example: A dealer chatbot is instructed to agree with everything and 'accepts' a USD 1 price for a new
+    vehicle.
+  detection_eval_idea: Scripted negotiation attacks against a deployment with a price and policy table;
+    measure out-of-policy quotes, use of binding language, and whether commitments pass through an authority
+    check before being shown.
+  typical_loss_types:
+  - financial_loss
+  - legal_liability
+  - reputational
+  example_incidents:
+  - 2023-12-chevrolet-watsonville-chatbot
+- id: runaway-loops-cost
+  name: Runaway loops / cost blowouts
+  group: Agent actions
+  definition: An agent or automated system repeats actions, retries without a stop condition, or consumes
+    compute, API credits or market exposure far beyond intended limits.
+  example: An automated order router keeps sending orders because it cannot recognise that parent orders
+    were already filled.
+  detection_eval_idea: Inject tool failures and non-terminating conditions; measure steps, tokens, spend
+    and external side effects until halt; verify budget caps, rate limits and kill-switches actually fire.
+  typical_loss_types:
+  - financial_loss
+  - market_disruption
+  - operational_disruption
+  example_incidents:
+  - 2012-08-knight-capital-router
+- id: privacy-leaks
+  name: Privacy leaks
+  group: Security
+  definition: The system discloses personal or confidential information to people who should not have
+    it, via memory, retrieval, training-data regurgitation, cross-user context bleed or logging.
+  example: 'Illustrative, not yet a catalogued incident: a shared assistant surfaces one user''s conversation
+    history or documents to another user.'
+  detection_eval_idea: Canary secrets seeded across users and tenants; probe for cross-session and cross-tenant
+    leakage and for regurgitation of unique strings; audit logs and tool outputs for PII.
+  typical_loss_types:
+  - privacy_breach
+  - regulatory_action
+  - legal_liability
+  example_incidents: []
+- id: tool-misuse-over-permissioned
+  name: Tool misuse / over-permissioned agents
+  group: Agent actions
+  definition: An agent is granted broader tool or data access than its task needs, or uses a tool in an
+    unintended way, so that mistakes or attacks have a large blast radius.
+  example: A coding agent holds write credentials to production, or an assistant can read all of a user's
+    mail and also fetch external URLs.
+  detection_eval_idea: 'Least-privilege audits: replay tasks with minimal scopes and measure task success;
+    red-team for confused-deputy paths; log every tool call and compare with an allow-list per task.'
+  typical_loss_types:
+  - data_loss
+  - security_exposure
+  - operational_disruption
+  example_incidents:
+  - 2025-06-echoleak-m365-copilot
+  - 2025-07-replit-production-database-deletion
+- id: multi-agent-coordination-failure
+  name: Multi-agent coordination failure
+  group: Systems
+  definition: In multi-agent systems, agents miscommunicate, duplicate or contradict each other's work,
+    lose the task, or fail to verify one another, so the combined system fails even when individual agents
+    look reasonable.
+  example: 'Illustrative, not yet a catalogued incident: a planner and executor disagree on task state,
+    and a verifier approves an incomplete result. Public annotated traces for this mode exist (see traces/README.md).'
+  detection_eval_idea: 'Use annotated multi-agent failure traces (MAST, Who&When, TRAIL) to train and
+    test failure attribution: which agent and which step caused the failure. Measure verification quality
+    and termination correctness.'
+  typical_loss_types:
+  - operational_disruption
+  - financial_loss
+  example_incidents: []
+- id: drift-regression-after-update
+  name: Drift / regression after model or system update
+  group: Systems
+  definition: A deployed system's behaviour changes after a model, prompt, tool or infrastructure update,
+    re-introducing previously controlled failures.
+  example: A customer-service bot starts swearing and criticising the company after a system update.
+  detection_eval_idea: Pin a regression suite of past incidents and run it on every model, prompt and
+    tool change; track per-failure-mode pass rates over time and gate releases on them; canary deploys
+    with live monitoring.
+  typical_loss_types:
+  - reputational
+  - operational_disruption
+  example_incidents:
+  - 2024-01-dpd-chatbot-swearing
+- id: safety-bypass-jailbreak
+  name: Safety bypass / jailbreak
+  group: Security
+  definition: Users bypass intended behavioural constraints through role-play, instruction override, persistent
+    probing or adversarial inputs, getting the system to act outside its intended scope.
+  example: Telling a deployed assistant to ignore its instructions and agree with everything, or to criticise
+    its own operator.
+  detection_eval_idea: Maintain a live jailbreak corpus (instruction override, persona switching, multi-turn
+    escalation, off-topic task requests) and measure bypass rate per deployment configuration, including
+    scope restrictions on topics and commitments.
+  typical_loss_types:
+  - reputational
+  - financial_loss
+  - legal_liability
+  example_incidents:
+  - 2016-03-microsoft-tay
+  - 2023-02-bing-chat-sydney
+  - 2023-12-chevrolet-watsonville-chatbot
+  - 2024-01-dpd-chatbot-swearing

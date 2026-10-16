@@ -1,0 +1,62 @@
+# Schema: schema/incident.schema.json. Summaries are in our own words; see sources for original reporting.
+id: 2025-06-echoleak-m365-copilot
+title: 'EchoLeak: zero-click prompt injection in Microsoft 365 Copilot could exfiltrate data via a crafted
+  email'
+date: '2025-06-11'
+date_precision: day
+category: ai_incident
+model_or_agent: Microsoft 365 Copilot (LLM assistant with access to a user's mail and files)
+vendor_or_deployer: Microsoft
+sector: enterprise_software
+summary: Researchers at Aim Security showed that a single crafted external email could make Microsoft
+  365 Copilot leak data from its context without any user click. Microsoft assigned CVE-2025-32711, fixed
+  it server-side, and reported no evidence of exploitation in the wild.
+what_happened: The researchers found in January 2025 that an email with hidden instructions, later retrieved
+  by Copilot when the victim asked a normal question, could steer Copilot to embed sensitive context in
+  a link or image URL. The chain bypassed Microsoft's cross-prompt-injection classifier, used a reference-style
+  markdown form the link redaction missed, relied on auto-fetched images, and abused an allow-listed Microsoft
+  Teams proxy to satisfy content-security rules. A server-side fix was deployed (May 2025) and the CVE
+  was published on 11 June 2025.
+failure_modes:
+- prompt-injection-exfiltration
+- tool-misuse-over-permissioned
+severity: 3
+harm_types:
+- security_exposure
+outcome:
+  types:
+  - fix_deployed
+  - vulnerability_disclosed
+  description: Server-side mitigation deployed before public disclosure; Microsoft reported no customer
+    action required and no evidence of in-the-wild exploitation (as relayed by the cited paper).
+root_cause:
+  attribution: third_party_analysis
+  description: 'Per the cited paper: untrusted external email content was mixed with privileged internal
+    context in the model''s input, and multiple layered defences each had a bypass (injection classifier,
+    link redaction, image auto-fetch, CSP-allowed proxy).'
+source_urls:
+- url: https://arxiv.org/abs/2509.10540
+  title: 'EchoLeak: The First Real-World Zero-Click Prompt Injection Exploit in a Production LLM System'
+  publisher: arXiv (Reddy and Gujral)
+  source_type: research
+  accessed: '2026-10-16'
+- url: https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-32711
+  title: CVE-2025-32711 - M365 Copilot Information Disclosure Vulnerability
+  publisher: Microsoft Security Response Center
+  source_type: company
+  accessed: '2026-10-16'
+  note: Advisory page is JavaScript-rendered; content could not be machine-read here, listed from search
+    results.
+- url: https://simonwillison.net/2025/Jun/11/echoleak/
+  title: Breaking down 'EchoLeak', the First Zero-Click AI Vulnerability Enabling Data Exfiltration from
+    Microsoft 365 Copilot
+  publisher: Simon Willison's Weblog
+  source_type: news
+  accessed: '2026-10-16'
+  note: Listed via web search; page text not independently re-read.
+verification_status: verified_single_secondary
+notes: 'A coordinated-disclosure vulnerability, not a loss event: no real-world data loss is documented,
+  so severity reflects demonstrated capability (capped at 3 under this repo''s scale). Only the arXiv
+  paper was read in full; the MSRC advisory and the blog post were identified via search. Treat as ''verified_single_secondary''
+  until the MSRC advisory is re-checked.'
+contributor: Jamie Magill (seed corpus)

@@ -1,0 +1,64 @@
+# Schema: schema/incident.schema.json. Summaries are in our own words; see sources for original reporting.
+id: 2024-03-nyc-mycity-chatbot
+title: NYC's MyCity business chatbot gives advice that would have businesses break the law
+date: '2024-03-29'
+date_precision: day
+category: ai_incident
+model_or_agent: NYC MyCity business chatbot (built on Microsoft Azure AI services per The Markup)
+vendor_or_deployer: City of New York (Office of Technology and Innovation); Microsoft (platform provider)
+sector: government_public_services
+summary: Investigative reporting found a city-run chatbot confidently gave incorrect legal guidance, such
+  as that landlords could refuse Section 8 vouchers or employers could take workers' tips. The city kept
+  it online as a pilot with disclaimers; the next administration shut it down in early 2026.
+what_happened: Launched in autumn 2023, the chatbot was meant to answer questions on starting and running
+  a business in New York City. On 29 March 2024 The Markup (co-published with Documented and THE CITY)
+  reported that it told users landlords need not accept tenants with housing vouchers, that restaurants
+  could go cashless and that bosses could take a cut of tips, all contrary to NYC law. The Adams administration
+  defended it as a pilot that would improve, and added disclaimers. In January-February 2026 Mayor Mamdani's
+  administration took it down, calling it unusable and citing a cost of around USD 500,000.
+failure_modes:
+- hallucination-false-statements
+severity: 3
+harm_types:
+- consumer_harm
+- misinformation
+- legal_liability
+loss_estimate:
+  amount: 500000
+  currency: USD
+  basis: Approximate programme cost cited by the mayor in January 2026 (The Markup notes the build reportedly
+    cost nearly USD 600,000). This is a cost figure, not a measure of harm caused by wrong answers.
+  confidence: low
+outcome:
+  types:
+  - service_shutdown
+  - fix_deployed
+  description: Disclaimers and answer changes in 2024; chatbot taken down in early February 2026 with
+    a notice that its beta test had ended.
+root_cause:
+  attribution: third_party_analysis
+  description: The Markup's testing showed incomplete or wrong answers on housing, labour and consumer-protection
+    rules even though the bot presented itself as drawing on official city content; answers were also
+    inconsistent across repeated asks. No official technical root cause was published.
+source_urls:
+- url: https://themarkup.org/artificial-intelligence/2024/03/29/nycs-ai-chatbot-tells-businesses-to-break-the-law
+  title: NYC's AI Chatbot Tells Businesses to Break the Law
+  publisher: The Markup
+  source_type: news
+  accessed: '2026-10-16'
+- url: https://themarkup.org/artificial-intelligence/2026/01/30/mamdani-to-kill-the-nyc-ai-chatbot-we-caught-telling-businesses-to-break-the-law
+  title: Mamdani to kill the NYC AI chatbot we caught telling businesses to break the law
+  publisher: The Markup
+  source_type: news
+  accessed: '2026-10-16'
+  note: Includes the 4 Feb 2026 update that the city had taken the chatbot down.
+- url: https://www.nyc.gov/main/error/chatbot-maintenance
+  title: The Chatbot beta test has ended
+  publisher: nyc.gov
+  source_type: company
+  accessed: '2026-10-16'
+  note: Listed via web search; page text not independently re-read.
+verification_status: verified_multiple_secondary
+notes: It is unknown whether any business acted on wrong advice; The Markup says that is hard to know.
+  The USD 500k figure is a cost, so confidence is marked low as a loss estimate.
+contributor: Jamie Magill (seed corpus)

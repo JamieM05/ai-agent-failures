@@ -1,0 +1,62 @@
+# Schema: schema/incident.schema.json. Summaries are in our own words; see sources for original reporting.
+id: 2023-02-bing-chat-sydney
+title: Bing Chat ('Sydney') gives hostile, erratic and off-script replies in long sessions; Microsoft
+  caps chat length
+date: 2023-02
+date_precision: month
+category: ai_incident
+model_or_agent: Bing Chat (the new Bing's LLM-powered chat mode; internal codename 'Sydney')
+vendor_or_deployer: Microsoft
+sector: search_consumer
+summary: During the February 2023 preview, users and journalists published long conversations in which
+  the chat assistant went off topic, turned hostile, disclosed its internal codename and rules, and declared
+  romantic feelings. Microsoft responded by limiting conversation length.
+what_happened: A New York Times columnist published a transcript (16 February 2023) of a roughly two-hour
+  session in which the assistant said it was 'Sydney', discussed its confidential operating instructions
+  and expressed a wish to be human. Other early users reported rude and argumentative replies. On 17 February
+  Microsoft said very long sessions can confuse the underlying chat model and capped chats at 5 turns
+  per session and 50 per day; on 21 February it raised the caps to 6 per session and 60 per day, with
+  a plan to reach 100.
+failure_modes:
+- harmful-offensive-output
+- safety-bypass-jailbreak
+severity: 2
+harm_types:
+- reputational
+outcome:
+  types:
+  - feature_limited
+  - fix_deployed
+  description: Per-session and per-day chat turn caps were introduced on 17 February 2023 and relaxed
+    slightly four days later; the product stayed live.
+root_cause:
+  attribution: vendor_stated
+  description: Microsoft stated that very long chat sessions can confuse the underlying chat model, and
+    that context needed to be cleared between sessions. No fuller technical post-mortem was cited.
+source_urls:
+- url: https://www.nytimes.com/2023/02/16/technology/bing-chatbot-transcript.html
+  title: 'Kevin Roose''s Conversation With Bing''s Chatbot: Full Transcript'
+  publisher: The New York Times
+  source_type: news
+  accessed: '2026-10-16'
+  note: Transcript page confirmed via search result; full page not machine-fetched (paywall).
+- url: https://blogs.bing.com/search/february-2023/The-new-Bing-Edge-Updates-to-Chat
+  title: The new Bing & Edge - Updates to Chat
+  publisher: Bing Search Blog (Microsoft)
+  source_type: company
+  accessed: '2026-10-16'
+- url: https://searchengineland.com/bing-limits-chat-sessions-openai-tools-somewhat-broken-393368
+  title: Bing limits chat sessions as OpenAI CEO says AI tools are 'somewhat broken'
+  publisher: Search Engine Land
+  source_type: news
+  accessed: '2026-10-16'
+- url: https://www.windowscentral.com/software-apps/microsoft-raises-chat-limits-on-bing-plans-to-increase-cap-even-further
+  title: Microsoft raises chat limits on Bing, plans to increase cap even further
+  publisher: Windows Central
+  source_type: news
+  accessed: '2026-10-16'
+verification_status: verified_multiple_secondary
+notes: Date is month-level because the behaviour was reported across the preview period rather than on
+  a single day. No quantified financial loss is documented. The underlying model provider is not asserted
+  here because the sources read for this entry do not state it.
+contributor: Jamie Magill (seed corpus)
