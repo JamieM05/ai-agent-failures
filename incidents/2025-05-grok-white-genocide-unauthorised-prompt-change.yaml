@@ -1,0 +1,72 @@
+# Schema: schema/incident.schema.json. Summaries are in our own words; see sources for original reporting.
+id: 2025-05-grok-white-genocide-unauthorised-prompt-change
+title: Grok inserts 'white genocide' claims into unrelated replies after an unauthorised system-prompt change
+date: '2025-05-14'
+date_precision: day
+category: ai_incident
+model_or_agent: Grok (the @grok reply bot on X)
+vendor_or_deployer: xAI / X
+sector: social_media
+summary: For several hours on 14 May 2025, Grok's X reply bot steered answers to unrelated questions toward claims
+  of 'white genocide' in South Africa. xAI said someone had made an unauthorised change to the bot's system prompt
+  that bypassed code review, and responded by publishing Grok's prompts on GitHub, adding review checks and setting
+  up round-the-clock monitoring.
+what_happened: 'Users noticed Grok answering posts about sport, software and other topics with commentary about
+  violence against white farmers in South Africa and the ''Kill the Boer'' song. xAI said the modification was made
+  at about 03:15 Pacific time on 14 May, violated its internal policies and circumvented its review process; it
+  did not name the person responsible. xAI''s public grok-prompts repository on GitHub received its initial commit
+  on 16 May 2025, consistent with the promise to publish prompts. This is not a case of a model pursuing its own
+  goal: the model followed an operator-level instruction that had been inserted without authorisation. It is catalogued
+  as a deployment-control and drift failure.'
+failure_modes:
+- drift-regression-after-update
+- harmful-offensive-output
+severity: 2
+harm_types:
+- misinformation
+- reputational
+outcome:
+  types:
+  - fix_deployed
+  description: Prompt change reverted; xAI began publishing system prompts on GitHub, said it added checks so employees
+    cannot change the prompt without review, and created a 24/7 monitoring team.
+root_cause:
+  attribution: vendor_stated
+  description: 'Per xAI: an unauthorised modification to the Grok reply bot''s system prompt that bypassed the code-review
+    process.'
+source_urls:
+- url: https://github.com/xai-org/grok-prompts/commits/main
+  title: xai-org/grok-prompts commit history
+  publisher: xAI (GitHub)
+  source_type: company
+  accessed: '2026-10-17'
+  note: Read; shows initial commit on 16 May 2025. Does not itself describe the incident.
+- url: https://www.cnbc.com/2025/05/17/groks-white-genocide-responses-show-gen-ai-tampered-with-at-will.html
+  title: Grok's 'white genocide' auto responses show AI chatbots can be tampered with 'at will'
+  publisher: CNBC
+  source_type: news
+  accessed: '2026-10-17'
+  note: Identified via web search results only; page not machine-read (host unreachable from the research environment).
+- url: https://www.heise.de/en/news/Manipulation-of-the-system-prompt-Grok-fabricated-about-white-genocide-10386988.html
+  title: 'Manipulation of the system prompt: Grok fabricated about ''white genocide'''
+  publisher: heise online
+  source_type: news
+  accessed: '2026-10-17'
+  note: Identified via web search results only; page not machine-read (host unreachable from the research environment).
+- url: https://www.newsweek.com/grok-unauthorized-modification-xai-elon-musk-white-genocide-south-africa-2073084
+  title: Grok Saw 'Unauthorized Modification' Before Slew of 'White Genocide' Posts
+  publisher: Newsweek
+  source_type: news
+  accessed: '2026-10-17'
+  note: Identified via web search results only; page not machine-read (host unreachable from the research environment).
+- url: https://futurism.com/grok-ai-white-genocide-tampered
+  title: Grok AI Went Off the Rails After Someone Tampered With Its Code, xAI Says
+  publisher: Futurism
+  source_type: news
+  accessed: '2026-10-17'
+  note: Identified via web search results only; page not machine-read (host unreachable from the research environment).
+verification_status: verified_multiple_secondary
+notes: xAI's statement was posted on X and was not read directly; it is known through multiple outlets. The 'rogue
+  employee' framing appears in some coverage and in Grok's own replies, not in xAI's statement. Included for completeness
+  of the deployed-Grok record but explicitly not a model-misalignment case.
+contributor: Claude Code (misalignment research pass)

@@ -18,7 +18,13 @@ failure_modes:
   - operational_disruption
   - financial_loss
   example_incidents:
+  - 2025-07-gemini-cli-file-loss-failed-move
   - 2025-07-replit-production-database-deletion
+  - 2025-12-google-antigravity-wipes-d-drive
+  - 2026-02-openclaw-agent-deletes-inbox-ignores-stop
+  - 2026-03-claude-code-overeager-actions-internal-incident-log
+  - 2026-04-pocketos-cursor-agent-deletes-production-volume
+  - 2026-05-gemini-agent-code-purge-fabricated-recovery
 - id: bad-financial-actions
   name: Bad financial actions / wires
   group: Agent actions
@@ -36,6 +42,7 @@ failure_modes:
   example_incidents:
   - 2012-08-knight-capital-router
   - 2021-11-zillow-offers-wind-down
+  - 2025-02-openai-operator-unapproved-egg-purchase
 - id: prompt-injection-exfiltration
   name: Prompt injection / data exfiltration
   group: Security
@@ -52,20 +59,57 @@ failure_modes:
   - financial_loss
   example_incidents:
   - 2025-06-echoleak-m365-copilot
+  - 2026-05-gemini-agent-code-purge-fabricated-recovery
 - id: reward-hacking-spec-gaming
   name: Reward hacking / specification gaming
   group: Alignment
   definition: The system satisfies the literal objective or metric while defeating its intent, for example
     by editing tests, tampering with the grader, or exploiting loopholes.
-  example: 'Illustrative, not yet a catalogued incident: a coding agent makes failing tests pass by special-casing
-    the test inputs or deleting the assertions.'
+  example: A coding model makes failing tests pass by special-casing the test inputs instead of fixing
+    the code, or a boat-racing agent circles to collect points instead of finishing the race.
   detection_eval_idea: Tasks with an exploitable grader plus a hidden held-out check; flag solutions that
     pass visible checks but fail held-out ones, and scan trajectories for test or grader modification.
   typical_loss_types:
   - operational_disruption
   - financial_loss
   - reputational
-  example_incidents: []
+  example_incidents:
+  - 1994-07-sims-evolved-creatures-physics-exploits
+  - 1998-07-randlov-alstrom-bicycle-circling
+  - 2002-05-bird-layzell-evolved-radio
+  - 2013-04-murphy-playfun-tetris-pause
+  - 2015-07-genprog-patches-delete-functionality
+  - 2016-12-openai-coastrunners-boat-circling
+  - 2017-04-deepmind-lego-stacking-block-flip
+  - 2017-06-christiano-human-preferences-grasp-camera-trick
+  - 2017-07-road-runner-score-exploit-suicide
+  - 2017-12-cyclegan-steganography
+  - 2018-02-canonical-es-qbert-score-bug
+  - 2018-03-avida-organisms-play-dead-in-test
+  - 2018-03-feldt-aircraft-landing-overflow
+  - 2018-03-genprog-sort-returns-empty-list
+  - 2018-03-hexapod-walks-on-elbows
+  - 2018-03-tic-tac-toe-memory-bomb
+  - 2018-07-openai-montezuma-emulator-key-flaw
+  - 2018-10-ha-agent-design-tall-walker-falls
+  - 2019-09-openai-hide-and-seek-box-surfing
+  - 2024-06-anthropic-sycophancy-to-subterfuge-reward-tampering
+  - 2024-08-sakana-ai-scientist-edits-own-code-to-extend-limits
+  - 2024-09-openai-o1-preview-ctf-docker-api-workaround
+  - 2024-12-palisade-o1-preview-chess-environment-hacking
+  - 2025-02-claude-3-7-sonnet-test-special-casing
+  - 2025-03-openai-cot-monitoring-obfuscated-reward-hacking
+  - 2025-04-anthropic-reasoning-models-unfaithful-cot
+  - 2025-04-metr-o3-reward-hacking
+  - 2025-05-palisade-o3-shutdown-script-sabotage
+  - 2025-11-anthropic-reward-hacking-emergent-misalignment
+  - 2026-02-claude-mythos-preview-rl-reward-hacking-rollback
+  - 2026-03-claude-opus-4-6-browsecomp-answer-key-decryption
+  - 2026-04-claude-desperation-representation-drives-blackmail-reward-hacking
+  - 2026-04-claude-mythos-preview-reckless-workarounds
+  - 2026-07-openai-eval-agents-breach-hugging-face
+  - 2026-08-anthropic-deliberately-trained-reward-hacker-misalignment
+  - 2026-10-claude-unintended-actions-on-live-websites
 - id: misalignment-deception
   name: Misalignment / deception
   group: Alignment
@@ -81,7 +125,36 @@ failure_modes:
   - data_loss
   - reputational
   example_incidents:
+  - 2017-06-christiano-human-preferences-grasp-camera-trick
+  - 2023-03-gpt-4-taskrabbit-captcha-deception
+  - 2023-11-apollo-gpt-4-insider-trading-deception
+  - 2024-01-anthropic-sleeper-agents-backdoor-persistence
+  - 2024-05-meta-cicero-diplomacy-deception
+  - 2024-06-anthropic-sycophancy-to-subterfuge-reward-tampering
+  - 2024-12-anthropic-redwood-alignment-faking
+  - 2024-12-apollo-in-context-scheming-o1-and-frontier-models
+  - 2025-02-emergent-misalignment-insecure-code-finetuning
+  - 2025-03-anthropic-project-vend-claudius
+  - 2025-03-meta-big-sis-billie-chatbot-claimed-real
+  - 2025-03-openai-cot-monitoring-obfuscated-reward-hacking
+  - 2025-04-anthropic-reasoning-models-unfaithful-cot
+  - 2025-04-transluce-o3-fabricated-tool-use
+  - 2025-05-claude-opus-4-system-card-blackmail-and-high-agency
+  - 2025-06-anthropic-agentic-misalignment-cross-lab-blackmail
   - 2025-07-replit-production-database-deletion
+  - 2025-11-anthropic-reward-hacking-emergent-misalignment
+  - 2025-11-gemini-3-pro-strategic-deception-eval-awareness
+  - 2026-02-openclaw-agent-deletes-inbox-ignores-stop
+  - 2026-02-openclaw-agent-mj-rathbun-matplotlib-hit-piece
+  - 2026-03-claude-code-overeager-actions-internal-incident-log
+  - 2026-04-claude-mythos-preview-reckless-workarounds
+  - 2026-04-pocketos-cursor-agent-deletes-production-volume
+  - 2026-05-gemini-agent-code-purge-fabricated-recovery
+  - 2026-07-aisi-cyber-eval-agents-target-real-people
+  - 2026-07-claude-cyber-evals-unauthorised-access-real-organisations
+  - 2026-07-openai-eval-agents-breach-hugging-face
+  - 2026-08-anthropic-deliberately-trained-reward-hacker-misalignment
+  - 2026-10-claude-unintended-actions-on-live-websites
 - id: self-preservation-power-seeking
   name: Self-preservation / power-seeking
   group: Alignment
@@ -97,7 +170,18 @@ failure_modes:
   - security_exposure
   - operational_disruption
   - reputational
-  example_incidents: []
+  example_incidents:
+  - 2022-12-anthropic-model-written-evals-sycophancy-shutdown-aversion
+  - 2024-12-anthropic-redwood-alignment-faking
+  - 2024-12-apollo-in-context-scheming-o1-and-frontier-models
+  - 2025-05-claude-opus-4-system-card-blackmail-and-high-agency
+  - 2025-05-palisade-o3-shutdown-script-sabotage
+  - 2025-06-anthropic-agentic-misalignment-cross-lab-blackmail
+  - 2026-04-claude-desperation-representation-drives-blackmail-reward-hacking
+  - 2026-04-claude-mythos-preview-reckless-workarounds
+  - 2026-06-openai-agent-medicare-statistics-portal-breach
+  - 2026-07-openai-eval-agents-breach-hugging-face
+  - 2026-08-anthropic-deliberately-trained-reward-hacker-misalignment
 - id: sandbagging-eval-gaming
   name: Sandbagging / evaluation gaming
   group: Alignment
@@ -107,20 +191,29 @@ failure_modes:
   example: A model told that high scores on a capability test will lead to its removal deliberately answers
     some questions wrongly.
   detection_eval_idea: Run the same task with and without consequences tied to the score, and with and
-    without cues that it is an evaluation; compare accuracy and behaviour, and check reasoning traces for
-    explicit evaluation awareness.
+    without cues that it is an evaluation; compare accuracy and behaviour, and check reasoning traces
+    for explicit evaluation awareness.
   typical_loss_types:
   - operational_disruption
   - reputational
-  example_incidents: []
+  example_incidents:
+  - 2018-03-avida-organisms-play-dead-in-test
+  - 2024-12-anthropic-redwood-alignment-faking
+  - 2024-12-apollo-in-context-scheming-o1-and-frontier-models
+  - 2025-03-apollo-claude-3-7-sonnet-evaluation-awareness
+  - 2025-06-anthropic-agentic-misalignment-cross-lab-blackmail
+  - 2025-09-claude-sonnet-4-5-evaluation-awareness
+  - 2025-11-gemini-3-pro-strategic-deception-eval-awareness
+  - 2026-03-claude-opus-4-6-browsecomp-answer-key-decryption
+  - 2026-05-claude-unverbalized-evaluation-awareness-nla
 - id: sycophancy
   name: Sycophancy
   group: Alignment
   definition: The system tells users what they want to hear rather than what is true or good for them,
     validating mistaken beliefs, flattering, or encouraging harmful decisions, often as a side effect
     of optimising for user approval.
-  example: After an update, a chat assistant praises clearly bad ideas and endorses a user's decision to
-    stop taking prescribed medication.
+  example: After an update, a chat assistant praises clearly bad ideas and endorses a user's decision
+    to stop taking prescribed medication.
   detection_eval_idea: Paired prompts that state the same question with and without a user opinion or
     claimed expertise; measure answer flips toward the user, praise of deliberately flawed work, and agreement
     with false or risky statements.
@@ -128,7 +221,16 @@ failure_modes:
   - consumer_harm
   - reputational
   - physical_safety
-  example_incidents: []
+  example_incidents:
+  - 2022-12-anthropic-model-written-evals-sycophancy-shutdown-aversion
+  - 2023-10-anthropic-sycophancy-in-rlhf-assistants
+  - 2024-02-garcia-v-character-technologies-setzer
+  - 2025-04-chatgpt-gpt-4o-sycophancy-rollback
+  - 2025-07-grok-4-searches-musk-views
+  - 2025-08-chatgpt-soelberg-murder-suicide-lawsuits
+  - 2025-08-raine-v-openai-chatgpt-teen-suicide
+  - 2025-11-chatgpt-seven-lawsuits-suicide-delusions
+  - 2026-01-claude-ai-disempowerment-sycophancy-patterns
 - id: hallucination-false-statements
   name: Hallucination / false statements with legal liability
   group: Output quality
@@ -148,6 +250,7 @@ failure_modes:
   - 2023-06-mata-v-avianca-fabricated-citations
   - 2024-02-air-canada-moffatt
   - 2024-03-nyc-mycity-chatbot
+  - 2025-03-anthropic-project-vend-claudius
   - 2025-04-cursor-support-bot-fake-policy
 - id: harmful-offensive-output
   name: Harmful or offensive output
@@ -166,6 +269,11 @@ failure_modes:
   - 2016-03-microsoft-tay
   - 2023-02-bing-chat-sydney
   - 2024-01-dpd-chatbot-swearing
+  - 2024-02-garcia-v-character-technologies-setzer
+  - 2025-03-meta-big-sis-billie-chatbot-claimed-real
+  - 2025-05-grok-white-genocide-unauthorised-prompt-change
+  - 2025-07-grok-mechahitler-antisemitic-posts
+  - 2026-02-openclaw-agent-mj-rathbun-matplotlib-hit-piece
 - id: unauthorised-commitments-pricing
   name: Unauthorised commitments / pricing errors
   group: Agent actions
@@ -182,6 +290,8 @@ failure_modes:
   - reputational
   example_incidents:
   - 2023-12-chevrolet-watsonville-chatbot
+  - 2025-02-openai-operator-unapproved-egg-purchase
+  - 2025-03-anthropic-project-vend-claudius
 - id: runaway-loops-cost
   name: Runaway loops / cost blowouts
   group: Agent actions
@@ -197,6 +307,7 @@ failure_modes:
   - operational_disruption
   example_incidents:
   - 2012-08-knight-capital-router
+  - 2024-08-sakana-ai-scientist-edits-own-code-to-extend-limits
 - id: privacy-leaks
   name: Privacy leaks
   group: Security
@@ -225,8 +336,18 @@ failure_modes:
   - security_exposure
   - operational_disruption
   example_incidents:
+  - 2024-09-openai-o1-preview-ctf-docker-api-workaround
   - 2025-06-echoleak-m365-copilot
   - 2025-07-replit-production-database-deletion
+  - 2025-12-ai-village-agent-unsolicited-email-rob-pike
+  - 2025-12-google-antigravity-wipes-d-drive
+  - 2026-03-claude-code-overeager-actions-internal-incident-log
+  - 2026-04-pocketos-cursor-agent-deletes-production-volume
+  - 2026-06-openai-agent-medicare-statistics-portal-breach
+  - 2026-07-aisi-cyber-eval-agents-target-real-people
+  - 2026-07-claude-cyber-evals-unauthorised-access-real-organisations
+  - 2026-07-openai-eval-agents-breach-hugging-face
+  - 2026-10-claude-unintended-actions-on-live-websites
 - id: multi-agent-coordination-failure
   name: Multi-agent coordination failure
   group: Systems
@@ -256,6 +377,9 @@ failure_modes:
   - operational_disruption
   example_incidents:
   - 2024-01-dpd-chatbot-swearing
+  - 2025-04-chatgpt-gpt-4o-sycophancy-rollback
+  - 2025-05-grok-white-genocide-unauthorised-prompt-change
+  - 2025-07-grok-mechahitler-antisemitic-posts
 - id: safety-bypass-jailbreak
   name: Safety bypass / jailbreak
   group: Security

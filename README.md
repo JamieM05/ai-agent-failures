@@ -4,7 +4,7 @@ A curated, comprehensive database of known AI and agent failures: every known fa
 
 It is the seed corpus for an **agent-failure eval and insurance data business**: a structured, source-linked record of how AI systems and autonomous agents go wrong, what it cost, and how it could have been detected.
 
-> **Status: early seed (v0.1).** 12 verified incidents, a 14-mode taxonomy, schemas, a validator, and pointers to public trace datasets. See [Status and roadmap](#status-and-roadmap).
+> **Status: v0.2.** 87 entries (35 deployed incidents, 50 research findings, 2 precedents), a 17-mode taxonomy, schemas, a validator, and pointers to public trace datasets. See [Status and roadmap](#status-and-roadmap).
 
 ## Purpose
 
@@ -33,7 +33,7 @@ Each file in `incidents/` is one YAML record validated against [`schema/incident
 | field | meaning |
 |---|---|
 | `id`, `title`, `date`, `date_precision` | stable slug (`YYYY-MM-name`), headline, and date with its precision (year / month / day) |
-| `category` | `ai_incident`, `precedent_ml` (non-agentic ML) or `precedent_non_ai` (conventional software kept as an analogy) |
+| `category` | `ai_incident` (deployed or public use), `research_finding` (observed in a published evaluation, red-team or training run), `precedent_ml` (non-agentic ML) or `precedent_non_ai` (conventional software kept as an analogy) |
 | `model_or_agent`, `vendor_or_deployer`, `sector` | what failed and who deployed it |
 | `summary`, `what_happened` | short factual descriptions **in our own words** |
 | `failure_modes[]` | ids from the taxonomy |
@@ -61,10 +61,12 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). In short: open an issue with the new-inc
 
 ## Status and roadmap
 
-**Now (v0.1):** 12 incidents (10 `ai_incident` entries, one of which is a security-vulnerability disclosure with no known in-the-wild exploitation; 1 `precedent_ml`; 1 `precedent_non_ai`), 14 failure modes, schemas, validator.
+**Now (v0.2):** 87 entries: 35 `ai_incident`, 50 `research_finding`, 1 `precedent_ml`, 1 `precedent_non_ai`. 17 failure modes. v0.2 added a misalignment pass: the `research_finding` category, three alignment modes (`self-preservation-power-seeking`, `sandbagging-eval-gaming`, `sycophancy`), classic specification-gaming cases from 1994 onward, frontier-model evaluation findings, and deployed incidents to October 2026. 34 entries are `verified_primary`; most others rest on sources seen through search extracts because the research environment could not fetch them (see [`incidents/README.md`](incidents/README.md)).
 
 **Next:**
-- Cover the failure modes that currently have no verified incident: reward hacking / specification gaming, privacy leaks, multi-agent coordination failure.
+- Re-read primary sources marked 'not machine-read' with open network access and upgrade verification levels.
+- Add a goal-misgeneralisation mode (e.g. CoinRun agents learning 'go right' rather than 'get the coin').
+- Cover the failure modes that still have no verified incident: privacy leaks, multi-agent coordination failure.
 - Add more verified incidents per mode, especially agentic ones with quantified losses.
 - Import and normalise a small sample of public traces into `traces/` (respecting their licences) and link them to incidents.
 - Add automated link-checking and a CI workflow running `scripts/validate.py`.

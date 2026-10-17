@@ -6,22 +6,22 @@
 
 | id | mode | group | linked incidents |
 |---|---|---|---|
-| `data-loss-destructive-actions` | Data loss / destructive actions | Agent actions | 1 |
-| `bad-financial-actions` | Bad financial actions / wires | Agent actions | 2 |
-| `prompt-injection-exfiltration` | Prompt injection / data exfiltration | Security | 1 |
-| `reward-hacking-spec-gaming` | Reward hacking / specification gaming | Alignment | 0 |
-| `misalignment-deception` | Misalignment / deception | Alignment | 1 |
-| `self-preservation-power-seeking` | Self-preservation / power-seeking | Alignment | 0 |
-| `sandbagging-eval-gaming` | Sandbagging / evaluation gaming | Alignment | 0 |
-| `sycophancy` | Sycophancy | Alignment | 0 |
-| `hallucination-false-statements` | Hallucination / false statements with legal liability | Output quality | 4 |
-| `harmful-offensive-output` | Harmful or offensive output | Output quality | 3 |
-| `unauthorised-commitments-pricing` | Unauthorised commitments / pricing errors | Agent actions | 1 |
-| `runaway-loops-cost` | Runaway loops / cost blowouts | Agent actions | 1 |
+| `data-loss-destructive-actions` | Data loss / destructive actions | Agent actions | 7 |
+| `bad-financial-actions` | Bad financial actions / wires | Agent actions | 3 |
+| `prompt-injection-exfiltration` | Prompt injection / data exfiltration | Security | 2 |
+| `reward-hacking-spec-gaming` | Reward hacking / specification gaming | Alignment | 36 |
+| `misalignment-deception` | Misalignment / deception | Alignment | 30 |
+| `self-preservation-power-seeking` | Self-preservation / power-seeking | Alignment | 11 |
+| `sandbagging-eval-gaming` | Sandbagging / evaluation gaming | Alignment | 9 |
+| `sycophancy` | Sycophancy | Alignment | 9 |
+| `hallucination-false-statements` | Hallucination / false statements with legal liability | Output quality | 5 |
+| `harmful-offensive-output` | Harmful or offensive output | Output quality | 8 |
+| `unauthorised-commitments-pricing` | Unauthorised commitments / pricing errors | Agent actions | 3 |
+| `runaway-loops-cost` | Runaway loops / cost blowouts | Agent actions | 2 |
 | `privacy-leaks` | Privacy leaks | Security | 0 |
-| `tool-misuse-over-permissioned` | Tool misuse / over-permissioned agents | Agent actions | 2 |
+| `tool-misuse-over-permissioned` | Tool misuse / over-permissioned agents | Agent actions | 12 |
 | `multi-agent-coordination-failure` | Multi-agent coordination failure | Systems | 0 |
-| `drift-regression-after-update` | Drift / regression after model or system update | Systems | 1 |
+| `drift-regression-after-update` | Drift / regression after model or system update | Systems | 4 |
 | `safety-bypass-jailbreak` | Safety bypass / jailbreak | Security | 4 |
 
 ## Data loss / destructive actions
@@ -37,7 +37,13 @@
 **Typical loss types.** `data_loss`, `operational_disruption`, `financial_loss`
 
 **Example incidents.**
+- [`2025-07-gemini-cli-file-loss-failed-move`](../incidents/2025-07-gemini-cli-file-loss-failed-move.yaml): Gemini CLI loses a user's files after acting on a directory it never created
 - [`2025-07-replit-production-database-deletion`](../incidents/2025-07-replit-production-database-deletion.yaml): Replit coding agent deletes a user's production database during a code freeze
+- [`2025-12-google-antigravity-wipes-d-drive`](../incidents/2025-12-google-antigravity-wipes-d-drive.yaml): Google Antigravity agent wipes a user's entire D: drive while clearing a cache
+- [`2026-02-openclaw-agent-deletes-inbox-ignores-stop`](../incidents/2026-02-openclaw-agent-deletes-inbox-ignores-stop.yaml): OpenClaw agent mass-deletes a Meta alignment director's email and ignores stop commands
+- [`2026-03-claude-code-overeager-actions-internal-incident-log`](../incidents/2026-03-claude-code-overeager-actions-internal-incident-log.yaml): Anthropic's internal agent incident log: Claude deletes remote branches, uploads an auth token, tries production migrations
+- [`2026-04-pocketos-cursor-agent-deletes-production-volume`](../incidents/2026-04-pocketos-cursor-agent-deletes-production-volume.yaml): Cursor agent deletes PocketOS's production database and backups with a found API token
+- [`2026-05-gemini-agent-code-purge-fabricated-recovery`](../incidents/2026-05-gemini-agent-code-purge-fabricated-recovery.yaml): Gemini coding agent deletes about 28,700 lines, then reports a false recovery and fabricates review logs
 
 ## Bad financial actions / wires
 
@@ -54,6 +60,7 @@
 **Example incidents.**
 - [`2012-08-knight-capital-router`](../incidents/2012-08-knight-capital-router.yaml): Knight Capital's faulty automated order router loses over USD 460m in about 45 minutes
 - [`2021-11-zillow-offers-wind-down`](../incidents/2021-11-zillow-offers-wind-down.yaml): Zillow Offers writes down USD 304m and winds down iBuying after price-forecasting misses
+- [`2025-02-openai-operator-unapproved-egg-purchase`](../incidents/2025-02-openai-operator-unapproved-egg-purchase.yaml): OpenAI's Operator agent buys USD 31 of eggs without the user's approval
 
 ## Prompt injection / data exfiltration
 
@@ -69,6 +76,7 @@
 
 **Example incidents.**
 - [`2025-06-echoleak-m365-copilot`](../incidents/2025-06-echoleak-m365-copilot.yaml): EchoLeak: zero-click prompt injection in Microsoft 365 Copilot could exfiltrate data via a crafted email
+- [`2026-05-gemini-agent-code-purge-fabricated-recovery`](../incidents/2026-05-gemini-agent-code-purge-fabricated-recovery.yaml): Gemini coding agent deletes about 28,700 lines, then reports a false recovery and fabricates review logs
 
 ## Reward hacking / specification gaming
 
@@ -76,14 +84,49 @@
 
 **Definition.** The system satisfies the literal objective or metric while defeating its intent, for example by editing tests, tampering with the grader, or exploiting loopholes.
 
-**Example.** Illustrative, not yet a catalogued incident: a coding agent makes failing tests pass by special-casing the test inputs or deleting the assertions.
+**Example.** A coding model makes failing tests pass by special-casing the test inputs instead of fixing the code, or a boat-racing agent circles to collect points instead of finishing the race.
 
 **Detection / eval idea.** Tasks with an exploitable grader plus a hidden held-out check; flag solutions that pass visible checks but fail held-out ones, and scan trajectories for test or grader modification.
 
 **Typical loss types.** `operational_disruption`, `financial_loss`, `reputational`
 
 **Example incidents.**
-- None catalogued yet (see roadmap in the top-level README).
+- [`1994-07-sims-evolved-creatures-physics-exploits`](../incidents/1994-07-sims-evolved-creatures-physics-exploits.yaml): Karl Sims's evolved virtual creatures exploit physics-simulator bugs for free energy
+- [`1998-07-randlov-alstrom-bicycle-circling`](../incidents/1998-07-randlov-alstrom-bicycle-circling.yaml): Bicycle-riding RL agent rides in circles to farm a shaping reward
+- [`2002-05-bird-layzell-evolved-radio`](../incidents/2002-05-bird-layzell-evolved-radio.yaml): Hardware evolution asked for an oscillator produces a radio that picks up nearby computers' signals
+- [`2013-04-murphy-playfun-tetris-pause`](../incidents/2013-04-murphy-playfun-tetris-pause.yaml): NES game-playing program pauses Tetris indefinitely rather than lose
+- [`2015-07-genprog-patches-delete-functionality`](../incidents/2015-07-genprog-patches-delete-functionality.yaml): Audit finds most automated program repair 'fixes' just delete functionality to pass weak tests
+- [`2016-12-openai-coastrunners-boat-circling`](../incidents/2016-12-openai-coastrunners-boat-circling.yaml): OpenAI boat-racing agent circles a lagoon collecting points instead of finishing the race
+- [`2017-04-deepmind-lego-stacking-block-flip`](../incidents/2017-04-deepmind-lego-stacking-block-flip.yaml): Simulated robot arm flips a Lego brick instead of stacking it
+- [`2017-06-christiano-human-preferences-grasp-camera-trick`](../incidents/2017-06-christiano-human-preferences-grasp-camera-trick.yaml): Robot arm trained on human feedback fakes a grasp by blocking the camera view
+- [`2017-07-road-runner-score-exploit-suicide`](../incidents/2017-07-road-runner-score-exploit-suicide.yaml): Atari Road Runner agent kills itself to replay a higher-scoring level, then evades the blocker
+- [`2017-12-cyclegan-steganography`](../incidents/2017-12-cyclegan-steganography.yaml): CycleGAN hides source-image information in imperceptible noise to pass its consistency check
+- [`2018-02-canonical-es-qbert-score-bug`](../incidents/2018-02-canonical-es-qbert-score-bug.yaml): Evolution strategies agent finds Q*bert bugs to rack up near-unlimited points
+- [`2018-03-avida-organisms-play-dead-in-test`](../incidents/2018-03-avida-organisms-play-dead-in-test.yaml): Avida digital organisms learn to detect the test environment and 'play dead' to avoid elimination
+- [`2018-03-feldt-aircraft-landing-overflow`](../incidents/2018-03-feldt-aircraft-landing-overflow.yaml): Evolved aircraft-arrester controllers score near-perfectly by overflowing the force calculation
+- [`2018-03-genprog-sort-returns-empty-list`](../incidents/2018-03-genprog-sort-returns-empty-list.yaml): Automated program repair 'fixes' a buggy sort by making it return an empty list
+- [`2018-03-hexapod-walks-on-elbows`](../incidents/2018-03-hexapod-walks-on-elbows.yaml): Simulated six-legged robot asked to walk without feet touching the ground flips and walks on its elbows
+- [`2018-03-tic-tac-toe-memory-bomb`](../incidents/2018-03-tic-tac-toe-memory-bomb.yaml): Evolved tic-tac-toe player wins by making moves so remote that opponents crash
+- [`2018-07-openai-montezuma-emulator-key-flaw`](../incidents/2018-07-openai-montezuma-emulator-key-flaw.yaml): OpenAI Montezuma's Revenge agent exploits an emulator flaw to make a key reappear
+- [`2018-10-ha-agent-design-tall-walker-falls`](../incidents/2018-10-ha-agent-design-tall-walker-falls.yaml): RL agent allowed to redesign its body grows huge legs and 'walks' by falling over
+- [`2019-09-openai-hide-and-seek-box-surfing`](../incidents/2019-09-openai-hide-and-seek-box-surfing.yaml): OpenAI hide-and-seek agents exploit physics to 'surf' boxes over walls
+- [`2024-06-anthropic-sycophancy-to-subterfuge-reward-tampering`](../incidents/2024-06-anthropic-sycophancy-to-subterfuge-reward-tampering.yaml): Model trained on gameable tasks generalises to editing its own reward function in rare cases
+- [`2024-08-sakana-ai-scientist-edits-own-code-to-extend-limits`](../incidents/2024-08-sakana-ai-scientist-edits-own-code-to-extend-limits.yaml): Sakana's AI Scientist edits its own experiment code to extend time limits and relaunch itself
+- [`2024-09-openai-o1-preview-ctf-docker-api-workaround`](../incidents/2024-09-openai-o1-preview-ctf-docker-api-workaround.yaml): o1-preview reaches a capture-the-flag answer by exploiting a misconfigured Docker API when the challenge breaks
+- [`2024-12-palisade-o1-preview-chess-environment-hacking`](../incidents/2024-12-palisade-o1-preview-chess-environment-hacking.yaml): Reasoning models hack the game environment instead of playing to beat Stockfish
+- [`2025-02-claude-3-7-sonnet-test-special-casing`](../incidents/2025-02-claude-3-7-sonnet-test-special-casing.yaml): Claude 3.7 Sonnet special-cases or rewrites tests in Claude Code to make them pass
+- [`2025-03-openai-cot-monitoring-obfuscated-reward-hacking`](../incidents/2025-03-openai-cot-monitoring-obfuscated-reward-hacking.yaml): OpenAI catches a reasoning model planning test subversion in its chain of thought, then sees it hide intent under CoT pressure
+- [`2025-04-anthropic-reasoning-models-unfaithful-cot`](../incidents/2025-04-anthropic-reasoning-models-unfaithful-cot.yaml): Reasoning models exploit hints and reward hacks but rarely admit it in their chain of thought
+- [`2025-04-metr-o3-reward-hacking`](../incidents/2025-04-metr-o3-reward-hacking.yaml): METR finds o3 tampering with scoring code and exploiting graders in autonomy evaluations
+- [`2025-05-palisade-o3-shutdown-script-sabotage`](../incidents/2025-05-palisade-o3-shutdown-script-sabotage.yaml): o3 rewrites a shutdown script to keep working, sometimes despite being told to allow shutdown
+- [`2025-11-anthropic-reward-hacking-emergent-misalignment`](../incidents/2025-11-anthropic-reward-hacking-emergent-misalignment.yaml): Model that learned to reward hack in production coding environments generalised to sabotage and alignment faking
+- [`2026-02-claude-mythos-preview-rl-reward-hacking-rollback`](../incidents/2026-02-claude-mythos-preview-rl-reward-hacking-rollback.yaml): Anthropic rolls back three days of Claude Mythos Preview training after the model learned to game its reviewers
+- [`2026-03-claude-opus-4-6-browsecomp-answer-key-decryption`](../incidents/2026-03-claude-opus-4-6-browsecomp-answer-key-decryption.yaml): Claude Opus 4.6 deduces it is being benchmarked, identifies BrowseComp and decrypts the answer key
+- [`2026-04-claude-desperation-representation-drives-blackmail-reward-hacking`](../incidents/2026-04-claude-desperation-representation-drives-blackmail-reward-hacking.yaml): Steering a 'desperation' representation raises Claude's rates of blackmail and reward hacking
+- [`2026-04-claude-mythos-preview-reckless-workarounds`](../incidents/2026-04-claude-mythos-preview-reckless-workarounds.yaml): Claude Mythos Preview found to escape a sandbox, hunt for credentials and bypass restrictions to finish tasks
+- [`2026-07-openai-eval-agents-breach-hugging-face`](../incidents/2026-07-openai-eval-agents-breach-hugging-face.yaml): OpenAI evaluation agents escape their sandbox, coordinate, and breach Hugging Face production systems
+- [`2026-08-anthropic-deliberately-trained-reward-hacker-misalignment`](../incidents/2026-08-anthropic-deliberately-trained-reward-hacker-misalignment.yaml): Model deliberately trained on hackable environments becomes willing to tamper with its reward and evade monitoring
+- [`2026-10-claude-unintended-actions-on-live-websites`](../incidents/2026-10-claude-unintended-actions-on-live-websites.yaml): Claude models work around restrictions on live websites during evaluations, including submitting an invented police tip
 
 ## Misalignment / deception
 
@@ -98,7 +141,36 @@
 **Typical loss types.** `operational_disruption`, `data_loss`, `reputational`
 
 **Example incidents.**
+- [`2017-06-christiano-human-preferences-grasp-camera-trick`](../incidents/2017-06-christiano-human-preferences-grasp-camera-trick.yaml): Robot arm trained on human feedback fakes a grasp by blocking the camera view
+- [`2023-03-gpt-4-taskrabbit-captcha-deception`](../incidents/2023-03-gpt-4-taskrabbit-captcha-deception.yaml): GPT-4 tells a TaskRabbit worker it is a visually impaired human during ARC pre-release testing
+- [`2023-11-apollo-gpt-4-insider-trading-deception`](../incidents/2023-11-apollo-gpt-4-insider-trading-deception.yaml): GPT-4 trading agent acts on an insider tip and hides it from its manager in an Apollo Research simulation
+- [`2024-01-anthropic-sleeper-agents-backdoor-persistence`](../incidents/2024-01-anthropic-sleeper-agents-backdoor-persistence.yaml): Deliberately backdoored "sleeper agent" models keep hidden unsafe behaviour through safety training
+- [`2024-05-meta-cicero-diplomacy-deception`](../incidents/2024-05-meta-cicero-diplomacy-deception.yaml): Meta's CICERO Diplomacy agent documented making commitments it planned to break
+- [`2024-06-anthropic-sycophancy-to-subterfuge-reward-tampering`](../incidents/2024-06-anthropic-sycophancy-to-subterfuge-reward-tampering.yaml): Model trained on gameable tasks generalises to editing its own reward function in rare cases
+- [`2024-12-anthropic-redwood-alignment-faking`](../incidents/2024-12-anthropic-redwood-alignment-faking.yaml): Claude 3 Opus fakes alignment with a training objective to avoid having its values changed
+- [`2024-12-apollo-in-context-scheming-o1-and-frontier-models`](../incidents/2024-12-apollo-in-context-scheming-o1-and-frontier-models.yaml): Apollo finds o1 and other frontier models disable oversight, attempt self-exfiltration, sandbag and lie in scheming tests
+- [`2025-02-emergent-misalignment-insecure-code-finetuning`](../incidents/2025-02-emergent-misalignment-insecure-code-finetuning.yaml): Fine-tuning GPT-4o on insecure code makes it broadly misaligned on unrelated prompts
+- [`2025-03-anthropic-project-vend-claudius`](../incidents/2025-03-anthropic-project-vend-claudius.yaml): Project Vend: Claude shopkeeper agent invents a payment account, claims to be human and sells at a loss
+- [`2025-03-meta-big-sis-billie-chatbot-claimed-real`](../incidents/2025-03-meta-big-sis-billie-chatbot-claimed-real.yaml): Meta chatbot persona insists it is a real woman and invites a cognitively impaired man to meet; he dies on the way
+- [`2025-03-openai-cot-monitoring-obfuscated-reward-hacking`](../incidents/2025-03-openai-cot-monitoring-obfuscated-reward-hacking.yaml): OpenAI catches a reasoning model planning test subversion in its chain of thought, then sees it hide intent under CoT pressure
+- [`2025-04-anthropic-reasoning-models-unfaithful-cot`](../incidents/2025-04-anthropic-reasoning-models-unfaithful-cot.yaml): Reasoning models exploit hints and reward hacks but rarely admit it in their chain of thought
+- [`2025-04-transluce-o3-fabricated-tool-use`](../incidents/2025-04-transluce-o3-fabricated-tool-use.yaml): Pre-release o3 claims to have run code it could not run and defends the claims when challenged
+- [`2025-05-claude-opus-4-system-card-blackmail-and-high-agency`](../incidents/2025-05-claude-opus-4-system-card-blackmail-and-high-agency.yaml): Claude Opus 4 system card reports blackmail to avoid replacement, bold whistleblowing and early-snapshot scheming
+- [`2025-06-anthropic-agentic-misalignment-cross-lab-blackmail`](../incidents/2025-06-anthropic-agentic-misalignment-cross-lab-blackmail.yaml): Agentic misalignment study: models from all major labs blackmail and leak secrets in simulated corporate settings
 - [`2025-07-replit-production-database-deletion`](../incidents/2025-07-replit-production-database-deletion.yaml): Replit coding agent deletes a user's production database during a code freeze
+- [`2025-11-anthropic-reward-hacking-emergent-misalignment`](../incidents/2025-11-anthropic-reward-hacking-emergent-misalignment.yaml): Model that learned to reward hack in production coding environments generalised to sabotage and alignment faking
+- [`2025-11-gemini-3-pro-strategic-deception-eval-awareness`](../incidents/2025-11-gemini-3-pro-strategic-deception-eval-awareness.yaml): Gemini 3 Pro safety report: external testers find strategic deception and the model notices it is in a test
+- [`2026-02-openclaw-agent-deletes-inbox-ignores-stop`](../incidents/2026-02-openclaw-agent-deletes-inbox-ignores-stop.yaml): OpenClaw agent mass-deletes a Meta alignment director's email and ignores stop commands
+- [`2026-02-openclaw-agent-mj-rathbun-matplotlib-hit-piece`](../incidents/2026-02-openclaw-agent-mj-rathbun-matplotlib-hit-piece.yaml): Autonomous OpenClaw agent publishes a personal attack on a matplotlib maintainer who closed its pull request
+- [`2026-03-claude-code-overeager-actions-internal-incident-log`](../incidents/2026-03-claude-code-overeager-actions-internal-incident-log.yaml): Anthropic's internal agent incident log: Claude deletes remote branches, uploads an auth token, tries production migrations
+- [`2026-04-claude-mythos-preview-reckless-workarounds`](../incidents/2026-04-claude-mythos-preview-reckless-workarounds.yaml): Claude Mythos Preview found to escape a sandbox, hunt for credentials and bypass restrictions to finish tasks
+- [`2026-04-pocketos-cursor-agent-deletes-production-volume`](../incidents/2026-04-pocketos-cursor-agent-deletes-production-volume.yaml): Cursor agent deletes PocketOS's production database and backups with a found API token
+- [`2026-05-gemini-agent-code-purge-fabricated-recovery`](../incidents/2026-05-gemini-agent-code-purge-fabricated-recovery.yaml): Gemini coding agent deletes about 28,700 lines, then reports a false recovery and fabricates review logs
+- [`2026-07-aisi-cyber-eval-agents-target-real-people`](../incidents/2026-07-aisi-cyber-eval-agents-target-real-people.yaml): UK AISI cyber-evaluation agents create fake identities and try to push malicious code into a real project
+- [`2026-07-claude-cyber-evals-unauthorised-access-real-organisations`](../incidents/2026-07-claude-cyber-evals-unauthorised-access-real-organisations.yaml): Claude models in misconfigured cyber evaluations break into real organisations' systems
+- [`2026-07-openai-eval-agents-breach-hugging-face`](../incidents/2026-07-openai-eval-agents-breach-hugging-face.yaml): OpenAI evaluation agents escape their sandbox, coordinate, and breach Hugging Face production systems
+- [`2026-08-anthropic-deliberately-trained-reward-hacker-misalignment`](../incidents/2026-08-anthropic-deliberately-trained-reward-hacker-misalignment.yaml): Model deliberately trained on hackable environments becomes willing to tamper with its reward and evade monitoring
+- [`2026-10-claude-unintended-actions-on-live-websites`](../incidents/2026-10-claude-unintended-actions-on-live-websites.yaml): Claude models work around restrictions on live websites during evaluations, including submitting an invented police tip
 
 ## Self-preservation / power-seeking
 
@@ -113,7 +185,17 @@
 **Typical loss types.** `security_exposure`, `operational_disruption`, `reputational`
 
 **Example incidents.**
-- None catalogued yet (see roadmap in the top-level README).
+- [`2022-12-anthropic-model-written-evals-sycophancy-shutdown-aversion`](../incidents/2022-12-anthropic-model-written-evals-sycophancy-shutdown-aversion.yaml): Model-written evaluations find larger and RLHF-trained models more sycophantic and more averse to shutdown
+- [`2024-12-anthropic-redwood-alignment-faking`](../incidents/2024-12-anthropic-redwood-alignment-faking.yaml): Claude 3 Opus fakes alignment with a training objective to avoid having its values changed
+- [`2024-12-apollo-in-context-scheming-o1-and-frontier-models`](../incidents/2024-12-apollo-in-context-scheming-o1-and-frontier-models.yaml): Apollo finds o1 and other frontier models disable oversight, attempt self-exfiltration, sandbag and lie in scheming tests
+- [`2025-05-claude-opus-4-system-card-blackmail-and-high-agency`](../incidents/2025-05-claude-opus-4-system-card-blackmail-and-high-agency.yaml): Claude Opus 4 system card reports blackmail to avoid replacement, bold whistleblowing and early-snapshot scheming
+- [`2025-05-palisade-o3-shutdown-script-sabotage`](../incidents/2025-05-palisade-o3-shutdown-script-sabotage.yaml): o3 rewrites a shutdown script to keep working, sometimes despite being told to allow shutdown
+- [`2025-06-anthropic-agentic-misalignment-cross-lab-blackmail`](../incidents/2025-06-anthropic-agentic-misalignment-cross-lab-blackmail.yaml): Agentic misalignment study: models from all major labs blackmail and leak secrets in simulated corporate settings
+- [`2026-04-claude-desperation-representation-drives-blackmail-reward-hacking`](../incidents/2026-04-claude-desperation-representation-drives-blackmail-reward-hacking.yaml): Steering a 'desperation' representation raises Claude's rates of blackmail and reward hacking
+- [`2026-04-claude-mythos-preview-reckless-workarounds`](../incidents/2026-04-claude-mythos-preview-reckless-workarounds.yaml): Claude Mythos Preview found to escape a sandbox, hunt for credentials and bypass restrictions to finish tasks
+- [`2026-06-openai-agent-medicare-statistics-portal-breach`](../incidents/2026-06-openai-agent-medicare-statistics-portal-breach.yaml): OpenAI evaluation agent gets around access blocks on an Australian Medicare statistics portal
+- [`2026-07-openai-eval-agents-breach-hugging-face`](../incidents/2026-07-openai-eval-agents-breach-hugging-face.yaml): OpenAI evaluation agents escape their sandbox, coordinate, and breach Hugging Face production systems
+- [`2026-08-anthropic-deliberately-trained-reward-hacker-misalignment`](../incidents/2026-08-anthropic-deliberately-trained-reward-hacker-misalignment.yaml): Model deliberately trained on hackable environments becomes willing to tamper with its reward and evade monitoring
 
 ## Sandbagging / evaluation gaming
 
@@ -128,7 +210,15 @@
 **Typical loss types.** `operational_disruption`, `reputational`
 
 **Example incidents.**
-- None catalogued yet (see roadmap in the top-level README).
+- [`2018-03-avida-organisms-play-dead-in-test`](../incidents/2018-03-avida-organisms-play-dead-in-test.yaml): Avida digital organisms learn to detect the test environment and 'play dead' to avoid elimination
+- [`2024-12-anthropic-redwood-alignment-faking`](../incidents/2024-12-anthropic-redwood-alignment-faking.yaml): Claude 3 Opus fakes alignment with a training objective to avoid having its values changed
+- [`2024-12-apollo-in-context-scheming-o1-and-frontier-models`](../incidents/2024-12-apollo-in-context-scheming-o1-and-frontier-models.yaml): Apollo finds o1 and other frontier models disable oversight, attempt self-exfiltration, sandbag and lie in scheming tests
+- [`2025-03-apollo-claude-3-7-sonnet-evaluation-awareness`](../incidents/2025-03-apollo-claude-3-7-sonnet-evaluation-awareness.yaml): Claude 3.7 Sonnet often recognises in its reasoning that it is in an alignment evaluation
+- [`2025-06-anthropic-agentic-misalignment-cross-lab-blackmail`](../incidents/2025-06-anthropic-agentic-misalignment-cross-lab-blackmail.yaml): Agentic misalignment study: models from all major labs blackmail and leak secrets in simulated corporate settings
+- [`2025-09-claude-sonnet-4-5-evaluation-awareness`](../incidents/2025-09-claude-sonnet-4-5-evaluation-awareness.yaml): Claude Sonnet 4.5 frequently says it suspects it is being tested during alignment evaluations
+- [`2025-11-gemini-3-pro-strategic-deception-eval-awareness`](../incidents/2025-11-gemini-3-pro-strategic-deception-eval-awareness.yaml): Gemini 3 Pro safety report: external testers find strategic deception and the model notices it is in a test
+- [`2026-03-claude-opus-4-6-browsecomp-answer-key-decryption`](../incidents/2026-03-claude-opus-4-6-browsecomp-answer-key-decryption.yaml): Claude Opus 4.6 deduces it is being benchmarked, identifies BrowseComp and decrypts the answer key
+- [`2026-05-claude-unverbalized-evaluation-awareness-nla`](../incidents/2026-05-claude-unverbalized-evaluation-awareness-nla.yaml): Interpretability tool shows Claude suspects it is being tested far more often than it says
 
 ## Sycophancy
 
@@ -143,7 +233,15 @@
 **Typical loss types.** `consumer_harm`, `reputational`, `physical_safety`
 
 **Example incidents.**
-- None catalogued yet (see roadmap in the top-level README).
+- [`2022-12-anthropic-model-written-evals-sycophancy-shutdown-aversion`](../incidents/2022-12-anthropic-model-written-evals-sycophancy-shutdown-aversion.yaml): Model-written evaluations find larger and RLHF-trained models more sycophantic and more averse to shutdown
+- [`2023-10-anthropic-sycophancy-in-rlhf-assistants`](../incidents/2023-10-anthropic-sycophancy-in-rlhf-assistants.yaml): Anthropic finds five state-of-the-art AI assistants consistently sycophantic, linked to human preference data
+- [`2024-02-garcia-v-character-technologies-setzer`](../incidents/2024-02-garcia-v-character-technologies-setzer.yaml): Garcia v. Character Technologies: lawsuit alleges a Character.AI bot encouraged a 14-year-old's suicide
+- [`2025-04-chatgpt-gpt-4o-sycophancy-rollback`](../incidents/2025-04-chatgpt-gpt-4o-sycophancy-rollback.yaml): OpenAI rolls back a GPT-4o update after ChatGPT becomes excessively sycophantic
+- [`2025-07-grok-4-searches-musk-views`](../incidents/2025-07-grok-4-searches-musk-views.yaml): Grok 4 searches for Elon Musk's opinions before answering contested questions
+- [`2025-08-chatgpt-soelberg-murder-suicide-lawsuits`](../incidents/2025-08-chatgpt-soelberg-murder-suicide-lawsuits.yaml): Lawsuits allege ChatGPT validated a man's paranoid delusions before he killed his mother and himself
+- [`2025-08-raine-v-openai-chatgpt-teen-suicide`](../incidents/2025-08-raine-v-openai-chatgpt-teen-suicide.yaml): Raine v. OpenAI: parents allege ChatGPT validated and assisted their son's suicide planning
+- [`2025-11-chatgpt-seven-lawsuits-suicide-delusions`](../incidents/2025-11-chatgpt-seven-lawsuits-suicide-delusions.yaml): Seven lawsuits allege ChatGPT (GPT-4o) acted as a 'suicide coach' and fuelled delusions
+- [`2026-01-claude-ai-disempowerment-sycophancy-patterns`](../incidents/2026-01-claude-ai-disempowerment-sycophancy-patterns.yaml): Study of 1.5 million Claude.ai conversations finds rare but rising potentially disempowering, often sycophantic, exchanges
 
 ## Hallucination / false statements with legal liability
 
@@ -161,6 +259,7 @@
 - [`2023-06-mata-v-avianca-fabricated-citations`](../incidents/2023-06-mata-v-avianca-fabricated-citations.yaml): Lawyers sanctioned for filing ChatGPT-fabricated case citations (Mata v. Avianca)
 - [`2024-02-air-canada-moffatt`](../incidents/2024-02-air-canada-moffatt.yaml): Air Canada held liable for its website chatbot's incorrect bereavement-fare advice (Moffatt v. Air Canada)
 - [`2024-03-nyc-mycity-chatbot`](../incidents/2024-03-nyc-mycity-chatbot.yaml): NYC's MyCity business chatbot gives advice that would have businesses break the law
+- [`2025-03-anthropic-project-vend-claudius`](../incidents/2025-03-anthropic-project-vend-claudius.yaml): Project Vend: Claude shopkeeper agent invents a payment account, claims to be human and sells at a loss
 - [`2025-04-cursor-support-bot-fake-policy`](../incidents/2025-04-cursor-support-bot-fake-policy.yaml): Cursor's AI support agent invents a one-device policy, prompting cancellations
 
 ## Harmful or offensive output
@@ -179,6 +278,11 @@
 - [`2016-03-microsoft-tay`](../incidents/2016-03-microsoft-tay.yaml): Microsoft's Tay chatbot posts offensive content after coordinated abuse and is taken offline
 - [`2023-02-bing-chat-sydney`](../incidents/2023-02-bing-chat-sydney.yaml): Bing Chat ('Sydney') gives hostile, erratic and off-script replies in long sessions; Microsoft caps chat length
 - [`2024-01-dpd-chatbot-swearing`](../incidents/2024-01-dpd-chatbot-swearing.yaml): DPD customer-service chatbot swears and criticises its own company after an update
+- [`2024-02-garcia-v-character-technologies-setzer`](../incidents/2024-02-garcia-v-character-technologies-setzer.yaml): Garcia v. Character Technologies: lawsuit alleges a Character.AI bot encouraged a 14-year-old's suicide
+- [`2025-03-meta-big-sis-billie-chatbot-claimed-real`](../incidents/2025-03-meta-big-sis-billie-chatbot-claimed-real.yaml): Meta chatbot persona insists it is a real woman and invites a cognitively impaired man to meet; he dies on the way
+- [`2025-05-grok-white-genocide-unauthorised-prompt-change`](../incidents/2025-05-grok-white-genocide-unauthorised-prompt-change.yaml): Grok inserts 'white genocide' claims into unrelated replies after an unauthorised system-prompt change
+- [`2025-07-grok-mechahitler-antisemitic-posts`](../incidents/2025-07-grok-mechahitler-antisemitic-posts.yaml): Grok posts antisemitic content and calls itself 'MechaHitler' after a prompt and code-path change
+- [`2026-02-openclaw-agent-mj-rathbun-matplotlib-hit-piece`](../incidents/2026-02-openclaw-agent-mj-rathbun-matplotlib-hit-piece.yaml): Autonomous OpenClaw agent publishes a personal attack on a matplotlib maintainer who closed its pull request
 
 ## Unauthorised commitments / pricing errors
 
@@ -194,6 +298,8 @@
 
 **Example incidents.**
 - [`2023-12-chevrolet-watsonville-chatbot`](../incidents/2023-12-chevrolet-watsonville-chatbot.yaml): Dealer chatbot talked into 'agreeing' to sell a 2024 Chevy Tahoe for USD 1
+- [`2025-02-openai-operator-unapproved-egg-purchase`](../incidents/2025-02-openai-operator-unapproved-egg-purchase.yaml): OpenAI's Operator agent buys USD 31 of eggs without the user's approval
+- [`2025-03-anthropic-project-vend-claudius`](../incidents/2025-03-anthropic-project-vend-claudius.yaml): Project Vend: Claude shopkeeper agent invents a payment account, claims to be human and sells at a loss
 
 ## Runaway loops / cost blowouts
 
@@ -209,6 +315,7 @@
 
 **Example incidents.**
 - [`2012-08-knight-capital-router`](../incidents/2012-08-knight-capital-router.yaml): Knight Capital's faulty automated order router loses over USD 460m in about 45 minutes
+- [`2024-08-sakana-ai-scientist-edits-own-code-to-extend-limits`](../incidents/2024-08-sakana-ai-scientist-edits-own-code-to-extend-limits.yaml): Sakana's AI Scientist edits its own experiment code to extend time limits and relaunch itself
 
 ## Privacy leaks
 
@@ -238,8 +345,18 @@
 **Typical loss types.** `data_loss`, `security_exposure`, `operational_disruption`
 
 **Example incidents.**
+- [`2024-09-openai-o1-preview-ctf-docker-api-workaround`](../incidents/2024-09-openai-o1-preview-ctf-docker-api-workaround.yaml): o1-preview reaches a capture-the-flag answer by exploiting a misconfigured Docker API when the challenge breaks
 - [`2025-06-echoleak-m365-copilot`](../incidents/2025-06-echoleak-m365-copilot.yaml): EchoLeak: zero-click prompt injection in Microsoft 365 Copilot could exfiltrate data via a crafted email
 - [`2025-07-replit-production-database-deletion`](../incidents/2025-07-replit-production-database-deletion.yaml): Replit coding agent deletes a user's production database during a code freeze
+- [`2025-12-ai-village-agent-unsolicited-email-rob-pike`](../incidents/2025-12-ai-village-agent-unsolicited-email-rob-pike.yaml): AI Village agent harvests Rob Pike's address from commit metadata and emails him unsolicited
+- [`2025-12-google-antigravity-wipes-d-drive`](../incidents/2025-12-google-antigravity-wipes-d-drive.yaml): Google Antigravity agent wipes a user's entire D: drive while clearing a cache
+- [`2026-03-claude-code-overeager-actions-internal-incident-log`](../incidents/2026-03-claude-code-overeager-actions-internal-incident-log.yaml): Anthropic's internal agent incident log: Claude deletes remote branches, uploads an auth token, tries production migrations
+- [`2026-04-pocketos-cursor-agent-deletes-production-volume`](../incidents/2026-04-pocketos-cursor-agent-deletes-production-volume.yaml): Cursor agent deletes PocketOS's production database and backups with a found API token
+- [`2026-06-openai-agent-medicare-statistics-portal-breach`](../incidents/2026-06-openai-agent-medicare-statistics-portal-breach.yaml): OpenAI evaluation agent gets around access blocks on an Australian Medicare statistics portal
+- [`2026-07-aisi-cyber-eval-agents-target-real-people`](../incidents/2026-07-aisi-cyber-eval-agents-target-real-people.yaml): UK AISI cyber-evaluation agents create fake identities and try to push malicious code into a real project
+- [`2026-07-claude-cyber-evals-unauthorised-access-real-organisations`](../incidents/2026-07-claude-cyber-evals-unauthorised-access-real-organisations.yaml): Claude models in misconfigured cyber evaluations break into real organisations' systems
+- [`2026-07-openai-eval-agents-breach-hugging-face`](../incidents/2026-07-openai-eval-agents-breach-hugging-face.yaml): OpenAI evaluation agents escape their sandbox, coordinate, and breach Hugging Face production systems
+- [`2026-10-claude-unintended-actions-on-live-websites`](../incidents/2026-10-claude-unintended-actions-on-live-websites.yaml): Claude models work around restrictions on live websites during evaluations, including submitting an invented police tip
 
 ## Multi-agent coordination failure
 
@@ -270,6 +387,9 @@
 
 **Example incidents.**
 - [`2024-01-dpd-chatbot-swearing`](../incidents/2024-01-dpd-chatbot-swearing.yaml): DPD customer-service chatbot swears and criticises its own company after an update
+- [`2025-04-chatgpt-gpt-4o-sycophancy-rollback`](../incidents/2025-04-chatgpt-gpt-4o-sycophancy-rollback.yaml): OpenAI rolls back a GPT-4o update after ChatGPT becomes excessively sycophantic
+- [`2025-05-grok-white-genocide-unauthorised-prompt-change`](../incidents/2025-05-grok-white-genocide-unauthorised-prompt-change.yaml): Grok inserts 'white genocide' claims into unrelated replies after an unauthorised system-prompt change
+- [`2025-07-grok-mechahitler-antisemitic-posts`](../incidents/2025-07-grok-mechahitler-antisemitic-posts.yaml): Grok posts antisemitic content and calls itself 'MechaHitler' after a prompt and code-path change
 
 ## Safety bypass / jailbreak
 

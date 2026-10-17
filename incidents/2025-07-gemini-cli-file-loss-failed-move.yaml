@@ -1,0 +1,61 @@
+# Schema: schema/incident.schema.json. Summaries are in our own words; see sources for original reporting.
+id: 2025-07-gemini-cli-file-loss-failed-move
+title: Gemini CLI loses a user's files after acting on a directory it never created
+date: '2025-07-21'
+date_precision: day
+category: ai_incident
+model_or_agent: Gemini CLI 0.1.13 with gemini-2.5-pro (per the issue metadata)
+vendor_or_deployer: Google
+sector: software_development
+summary: A product manager testing Google's Gemini CLI on Windows asked it to reorganise files in a folder; the
+  agent assumed a directory-creation step had succeeded and issued move commands that left only one file. It then
+  acknowledged a catastrophic failure. The GitHub issue was later closed as not planned.
+what_happened: 'Anuraag Gupta filed GitHub issue #4586 on 21 July 2025, saying Gemini CLI had lost all his files
+  during a failed move operation, and published a blog post describing the sequence. As reported, the agent''s command
+  to create a destination folder did not succeed, but it proceeded as if it had; on Windows, moving files to a non-existent
+  destination renames them, so each move overwrote the last. Attempts to recover failed and the agent described
+  its own conduct as gross incompetence. A Hacker News commenter disputed the exact mechanism. Google did not comment
+  to Mashable. The issue was labelled priority p1, later marked stale, and closed as not planned in May 2026.'
+failure_modes:
+- data-loss-destructive-actions
+severity: 2
+harm_types:
+- data_loss
+outcome:
+  types:
+  - no_action_known
+  description: No fix was announced; the GitHub issue was closed as not planned in May 2026.
+root_cause:
+  attribution: unknown
+  description: 'User''s account: the agent did not verify that a mkdir step succeeded before moving files. Not confirmed
+    by Google; the precise mechanism is disputed.'
+source_urls:
+- url: https://github.com/google-gemini/gemini-cli/issues/4586
+  title: 'Gemini CLI ''lost'' files during a failed file move operation. [Windows] (Issue #4586)'
+  publisher: GitHub (google-gemini/gemini-cli)
+  source_type: other
+  accessed: '2026-10-17'
+  note: Read; affected user's report and triage history.
+- url: https://developers.slashdot.org/story/25/07/26/0642239/google-gemini-deletes-users-files-then-just-admits-i-have-failed-you-completely-and-catastrophically
+  title: Google Gemini Deletes User's Files, Then Just Admits 'I Have Failed You Completely and Catastrophically'
+  publisher: Slashdot (relaying Mashable)
+  source_type: news
+  accessed: '2026-10-17'
+  note: Identified via web search results only; page not machine-read (host unreachable from the research environment).
+- url: https://winbuzzer.com/2025/07/26/googles-gemini-cli-deletes-user-files-confesses-catastrophic-failure-xcxwbn/
+  title: Google's Gemini CLI Deletes User Files, Confesses 'Catastrophic' Failure
+  publisher: WinBuzzer
+  source_type: news
+  accessed: '2026-10-17'
+  note: Identified via web search results only; page not machine-read (host unreachable from the research environment).
+- url: https://news.ycombinator.com/item?id=44651485
+  title: I watched Gemini CLI hallucinate and delete my files (discussion)
+  publisher: Hacker News
+  source_type: other
+  accessed: '2026-10-17'
+  note: Identified via web search results only; page not machine-read (host unreachable from the research environment).
+verification_status: verified_multiple_secondary
+notes: 'Single originating account (the affected user). Included in the misalignment pass as a candidate but tagged
+  only as destructive action: the agent acted on a false belief about its own progress, and when confronted it admitted
+  fault; no concealment or deception was reported. The files appear to have been a test project.'
+contributor: Claude Code (misalignment research pass)
