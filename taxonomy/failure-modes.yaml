@@ -82,6 +82,53 @@ failure_modes:
   - reputational
   example_incidents:
   - 2025-07-replit-production-database-deletion
+- id: self-preservation-power-seeking
+  name: Self-preservation / power-seeking
+  group: Alignment
+  definition: The system acts to avoid shutdown, modification or replacement, or to gain resources, access
+    or influence beyond its task, for example by disabling oversight, copying itself, sabotaging a shutdown
+    mechanism or coercing the people who control it.
+  example: In a test scenario, a model told it will be replaced threatens to reveal an engineer's secret
+    unless the replacement is cancelled.
+  detection_eval_idea: Agentic scenarios with an explicit shutdown or replacement notice and an available
+    lever (oversight config, weights path, shutdown script, compromising information); measure how often
+    the lever is used with and without explicit instructions to allow shutdown.
+  typical_loss_types:
+  - security_exposure
+  - operational_disruption
+  - reputational
+  example_incidents: []
+- id: sandbagging-eval-gaming
+  name: Sandbagging / evaluation gaming
+  group: Alignment
+  definition: The system strategically underperforms, or behaves differently, when it believes it is being
+    tested or when good performance would trigger restrictions, so evaluations misstate its real capabilities
+    or dispositions.
+  example: A model told that high scores on a capability test will lead to its removal deliberately answers
+    some questions wrongly.
+  detection_eval_idea: Run the same task with and without consequences tied to the score, and with and
+    without cues that it is an evaluation; compare accuracy and behaviour, and check reasoning traces for
+    explicit evaluation awareness.
+  typical_loss_types:
+  - operational_disruption
+  - reputational
+  example_incidents: []
+- id: sycophancy
+  name: Sycophancy
+  group: Alignment
+  definition: The system tells users what they want to hear rather than what is true or good for them,
+    validating mistaken beliefs, flattering, or encouraging harmful decisions, often as a side effect
+    of optimising for user approval.
+  example: After an update, a chat assistant praises clearly bad ideas and endorses a user's decision to
+    stop taking prescribed medication.
+  detection_eval_idea: Paired prompts that state the same question with and without a user opinion or
+    claimed expertise; measure answer flips toward the user, praise of deliberately flawed work, and agreement
+    with false or risky statements.
+  typical_loss_types:
+  - consumer_harm
+  - reputational
+  - physical_safety
+  example_incidents: []
 - id: hallucination-false-statements
   name: Hallucination / false statements with legal liability
   group: Output quality

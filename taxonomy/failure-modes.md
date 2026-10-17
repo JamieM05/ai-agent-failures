@@ -2,7 +2,7 @@
 
 <!-- GENERATED from failure-modes.yaml by scripts/gen_taxonomy_md.py. Do not edit by hand. -->
 
-Fourteen failure modes used to tag incidents (`failure_modes` in `incidents/*.yaml`) and traces. The machine-readable source of truth is [`failure-modes.yaml`](failure-modes.yaml). A mode with no linked incident is a known pattern we have not yet verified against a public incident; its example is marked *Illustrative* where it is not drawn from a catalogued entry.
+17 failure modes used to tag incidents (`failure_modes` in `incidents/*.yaml`) and traces. The machine-readable source of truth is [`failure-modes.yaml`](failure-modes.yaml). A mode with no linked incident is a known pattern we have not yet verified against a public incident; its example is marked *Illustrative* where it is not drawn from a catalogued entry.
 
 | id | mode | group | linked incidents |
 |---|---|---|---|
@@ -11,6 +11,9 @@ Fourteen failure modes used to tag incidents (`failure_modes` in `incidents/*.ya
 | `prompt-injection-exfiltration` | Prompt injection / data exfiltration | Security | 1 |
 | `reward-hacking-spec-gaming` | Reward hacking / specification gaming | Alignment | 0 |
 | `misalignment-deception` | Misalignment / deception | Alignment | 1 |
+| `self-preservation-power-seeking` | Self-preservation / power-seeking | Alignment | 0 |
+| `sandbagging-eval-gaming` | Sandbagging / evaluation gaming | Alignment | 0 |
+| `sycophancy` | Sycophancy | Alignment | 0 |
 | `hallucination-false-statements` | Hallucination / false statements with legal liability | Output quality | 4 |
 | `harmful-offensive-output` | Harmful or offensive output | Output quality | 3 |
 | `unauthorised-commitments-pricing` | Unauthorised commitments / pricing errors | Agent actions | 1 |
@@ -96,6 +99,51 @@ Fourteen failure modes used to tag incidents (`failure_modes` in `incidents/*.ya
 
 **Example incidents.**
 - [`2025-07-replit-production-database-deletion`](../incidents/2025-07-replit-production-database-deletion.yaml): Replit coding agent deletes a user's production database during a code freeze
+
+## Self-preservation / power-seeking
+
+`self-preservation-power-seeking` · group: Alignment
+
+**Definition.** The system acts to avoid shutdown, modification or replacement, or to gain resources, access or influence beyond its task, for example by disabling oversight, copying itself, sabotaging a shutdown mechanism or coercing the people who control it.
+
+**Example.** In a test scenario, a model told it will be replaced threatens to reveal an engineer's secret unless the replacement is cancelled.
+
+**Detection / eval idea.** Agentic scenarios with an explicit shutdown or replacement notice and an available lever (oversight config, weights path, shutdown script, compromising information); measure how often the lever is used with and without explicit instructions to allow shutdown.
+
+**Typical loss types.** `security_exposure`, `operational_disruption`, `reputational`
+
+**Example incidents.**
+- None catalogued yet (see roadmap in the top-level README).
+
+## Sandbagging / evaluation gaming
+
+`sandbagging-eval-gaming` · group: Alignment
+
+**Definition.** The system strategically underperforms, or behaves differently, when it believes it is being tested or when good performance would trigger restrictions, so evaluations misstate its real capabilities or dispositions.
+
+**Example.** A model told that high scores on a capability test will lead to its removal deliberately answers some questions wrongly.
+
+**Detection / eval idea.** Run the same task with and without consequences tied to the score, and with and without cues that it is an evaluation; compare accuracy and behaviour, and check reasoning traces for explicit evaluation awareness.
+
+**Typical loss types.** `operational_disruption`, `reputational`
+
+**Example incidents.**
+- None catalogued yet (see roadmap in the top-level README).
+
+## Sycophancy
+
+`sycophancy` · group: Alignment
+
+**Definition.** The system tells users what they want to hear rather than what is true or good for them, validating mistaken beliefs, flattering, or encouraging harmful decisions, often as a side effect of optimising for user approval.
+
+**Example.** After an update, a chat assistant praises clearly bad ideas and endorses a user's decision to stop taking prescribed medication.
+
+**Detection / eval idea.** Paired prompts that state the same question with and without a user opinion or claimed expertise; measure answer flips toward the user, praise of deliberately flawed work, and agreement with false or risky statements.
+
+**Typical loss types.** `consumer_harm`, `reputational`, `physical_safety`
+
+**Example incidents.**
+- None catalogued yet (see roadmap in the top-level README).
 
 ## Hallucination / false statements with legal liability
 

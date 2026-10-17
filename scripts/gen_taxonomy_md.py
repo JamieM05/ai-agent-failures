@@ -22,7 +22,7 @@ out = [
     "",
     "<!-- GENERATED from failure-modes.yaml by scripts/gen_taxonomy_md.py. Do not edit by hand. -->",
     "",
-    "Fourteen failure modes used to tag incidents (`failure_modes` in `incidents/*.yaml`) and traces. "
+    f"{len(tax['failure_modes'])} failure modes used to tag incidents (`failure_modes` in `incidents/*.yaml`) and traces. "
     "The machine-readable source of truth is [`failure-modes.yaml`](failure-modes.yaml). "
     "A mode with no linked incident is a known pattern we have not yet verified against a public incident; "
     "its example is marked *Illustrative* where it is not drawn from a catalogued entry.",
