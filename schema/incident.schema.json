@@ -25,8 +25,8 @@
     },
     "date_precision": { "enum": ["year", "month", "day"] },
     "category": {
-      "enum": ["ai_incident", "precedent_ml", "precedent_non_ai"],
-      "description": "ai_incident = AI/LLM/agent system; precedent_ml = non-agentic ML/algorithmic system; precedent_non_ai = conventional software failure kept as an analogy for agent risk."
+      "enum": ["ai_incident", "research_finding", "precedent_ml", "precedent_non_ai"],
+      "description": "ai_incident = AI/LLM/agent system failed in deployment or public use; research_finding = behaviour observed and published from a controlled evaluation, red-team or training run, with no deployment harm required; precedent_ml = non-agentic ML/algorithmic system; precedent_non_ai = conventional software failure kept as an analogy for agent risk."
     },
     "model_or_agent": { "type": "string", "minLength": 2, "description": "System involved, as precisely as sources allow. Do not guess model names." },
     "vendor_or_deployer": { "type": "string", "minLength": 2 },
@@ -48,7 +48,8 @@
       "items": { "enum": [
         "financial_loss", "data_loss", "privacy_breach", "security_exposure",
         "reputational", "legal_liability", "regulatory_action", "consumer_harm",
-        "physical_safety", "market_disruption", "operational_disruption", "misinformation"
+        "physical_safety", "market_disruption", "operational_disruption", "misinformation",
+        "no_realised_harm"
       ] }
     },
     "loss_estimate": {
@@ -71,7 +72,7 @@
             "legal_ruling", "compensation_ordered", "compensation_offered", "sanctions",
             "regulatory_action", "service_shutdown", "feature_disabled", "feature_limited",
             "fix_deployed", "vendor_apology", "data_restored", "company_wind_down",
-            "vulnerability_disclosed", "no_action_known"
+            "vulnerability_disclosed", "research_published", "mitigation_published", "no_action_known"
           ] }
         },
         "description": { "type": "string", "minLength": 10 }

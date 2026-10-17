@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Validate incidents, taxonomy and example traces.
 
-Usage:  python scripts/validate.py
+Usage:  python scripts/validate.py [incidents_dir]
 Exit code 0 = everything valid, 1 = at least one problem.
 Requires: jsonschema, PyYAML (see scripts/requirements.txt).
 """
@@ -62,11 +62,12 @@ def main():
                 err(f"taxonomy: {m.get('id')}: missing '{k}'")
 
     # Incidents
-    files = sorted((ROOT / "incidents").glob("*.yaml"))
+    inc_dir = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else ROOT / "incidents"
+    files = sorted(inc_dir.glob("*.yaml"))
     ids = {}
     for p in files:
         doc = load_yaml(p)
-        label = p.relative_to(ROOT).as_posix()
+        label = p.relative_to(ROOT).as_posix() if p.is_relative_to(ROOT) else str(p)
         if not isinstance(doc, dict):
             err(f"{label}: not a mapping")
             continue
@@ -90,10 +91,13 @@ def main():
         urls = [s.get("url") for s in doc.get("source_urls", [])]
         if len(urls) != len(set(urls)):
             err(f"{label}: duplicate source URLs")
+        primary_types = ("court_or_regulator", "company")
+        if doc.get("category") == "research_finding":
+            primary_types += ("research",)
         if doc.get("verification_status", "").startswith("verified_primary") and not any(
-            s.get("source_type") in ("court_or_regulator", "company") for s in doc.get("source_urls", [])
+            s.get("source_type") in primary_types for s in doc.get("source_urls", [])
         ):
-            err(f"{label}: verified_primary requires a court_or_regulator or company source")
+            err(f"{label}: verified_primary requires a {' or '.join(primary_types)} source")
         if doc.get("verification_status") == "verified_multiple_secondary" and len(urls) < 2:
             err(f"{label}: verified_multiple_secondary needs at least 2 sources")
         for fld in ("summary", "what_happened"):
